@@ -12,6 +12,18 @@ background.y = display.contentHeight*0.5
 local zumbi = display.newImageRect( "zumbi.png", 80, 80 )
 zumbi.myName = "zumbi"
 
+local chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 20)
+local paredeesquerda = display.newRect(0,0,20, display.contentHeight*2)
+local parededireita = display.newRect(display.contentWidth, display.contentHeight,20, display.contentHeight*2)
+
+chao.myName = "chao"
+parededireita.myName = "paredeDireita"
+paredeesquerda.myName = "paredeEsquerda"
+
+fisica.addBody(chao, "kinematic", {isSensor=true})
+fisica.addBody(paredeesquerda, "kinematic", {isSensor=true})
+fisica.addBody(parededireita, "kinematic", {isSensor=true})
+
 score = 0
 
 tempo = 0
@@ -34,12 +46,14 @@ pltImpar = {}
 
 tuplaImpar[1] = PlataformasThree:new()
 pltImpar[1] = tuplaImpar[1]:sorteia(sorteio)
+tuplaImpar[1].myName = "plataformasImpares"
 
 alt = 0
 
 tuplaPar[1] = PlataformasTwo:new()
 pltPar[1] = tuplaPar[1]:proximoDois(sorteio, alt)
 
+tuplaPar[1].myName = "PlataformasPares"
 for i=2, 10 do
 
 	alt = alt + 200
@@ -49,7 +63,20 @@ for i=2, 10 do
 
 	tuplaPar[i] = PlataformasTwo:new()
 	pltPar[i] = tuplaPar[i]:proximoDois(pltImpar[i], alt)
-	
+
+	tuplaPar[i].myName = "plataformasPares"
+	tuplaImpar[i].myName = "plataformasImpares"
+
+
+	--esta porcaria não funciona!!!!!!!!!!!!
+	zumbi:addEventListener( "preCollision", function ( event )
+	    local plataformas = event.other
+	    if plataformas.myName == "plataformasPares" or plataformas.myName == "plataformasImpares" then
+	        event.contact.isEnabled = false
+	        print( "estou aqui" )
+	    end
+	end )
+
 end
 
 --posicionar o zumbi no inicio do jogo
@@ -67,11 +94,11 @@ elseif(sorteio == 3) then
 	
 end
 
-fisica.addBody(zumbi, {bounce = 0.1, friction=1, density=1})
+fisica.addBody(zumbi, "dynamic", {bounce = 0.1, friction=1, density=1})
 
 function display:tap (event)
 	if (event.x < display.contentWidth/2) then
-		transition.to( zumbi, {time=1000, x = zumbi.x-155, y = zumbi.y-230} )
+		transition.to( zumbi, {time=1000, x = zumbi.x-100, y = zumbi.y-80} ) --x = zumbi.x-155, y = zumbi.y-230
 		--zumbi:applyLinearImpulse(  50, 1, zumbi.x-150, zumbi.y-230 )
 
 		--cerebro.isVisible = false
@@ -87,18 +114,32 @@ end
 qtdCerebros = 0
 
 local function onCollisionCerebro(event)
-	if( ( event.object1.myName == "zumbi" and event.object2.myName == "cerebro" ) or ( event.object1.myName == "cerebro" and event.object2.myName == "zumbi" ) ) then
+	if( event.object1.myName == "zumbi" and event.object2.myName == "cerebro" ) then
+		local removeCerebro = event.object2
 		qtdCerebros = qtdCerebros + 1
 		print ("cerebros: " .. qtdCerebros)
-		cerebro:removeSelf( )
+		removeCerebro:removeSelf( )
+	elseif ( event.object1.myName == "cerebro" and event.object2.myName == "zumbi" ) then
+		local removeCerebro = event.object1
+		qtdCerebros = qtdCerebros + 1
+		print ("cerebros: " .. qtdCerebros)
+		removeCerebro:removeSelf()
 	end
 end
 
 local function onCollisionCerebroComCerebro(event)
-	if( ( event.object1.myName == "cerebro" and event.object2.myName == "cerebro" ) or ( event.object1.myName == "cerebro" and event.object2.myName == "cerebro" ) ) then
-		cerebro:removeSelf( )
---		cerebro.width = 80
---		cerebro.height = 80
+	if( event.object1.myName == "cerebro" and event.object2.myName == "cerebro" ) then
+		cerebroMaster = event.object1
+		cerebroSlave = event.object2
+		escalaX = cerebroMaster.xScale * 1.5
+		escalaY = cerebroMaster.yScale * 1.5
+		if cerebroMaster.xScale < escalaX then
+			cerebroMaster.xScale = cerebroSlave.xScale * 1.5
+			cerebroMaster.yScale = cerebroSlave.yScale * 1.5
+			cerebroSlave:removeSelf( )
+		else 
+			cerebroSlave:removeSelf( )
+		end
 	end
 end
 
@@ -143,6 +184,22 @@ function mostraScore( )
 	messageScore.text = "Scores ".. score
 end
 
+--terminar essa função - game over
+local function onCollisionGameOver(event)
+	if( event.object1.myName == "zumbi" and event.object2.myName == "chao" or
+		event.object1.myName == "chao" and event.object2.myName == "zumbi" or
+		event.object1.myName == "zumbi" and event.object2.myName == "paredeDireita" or
+		event.object1.myName == "paredeDireita" and event.object2.myName == "zumbi" or
+		event.object1.myName == "zumbi" and event.object2.myName == "paredeEsquerda" or
+		event.object1.myName == "paredeEsquerda" and event.object2.myName == "zumbi") then
+		local gameOver = display.newImageRect( "gameover.png", 500, 150 )
+		gameOver.x = display.contentWidth/2
+		gameOver.y = display.contentHeight/2
+		score = 0
+		tempo = 0
+	end
+end
+
 --local function onCollisionScore(event)
 --	if( ( event.object1.myName == "zumbi" and event.object2.myName == "plataformas_par" ) or 
 --		( event.object1.myName == "plataformas_par" and event.object2.myName == "zumbi" ) or
@@ -158,10 +215,12 @@ end
 Runtime:addEventListener( "tap", display )
 Runtime:addEventListener("collision", onCollisionCerebro)
 Runtime:addEventListener("collision", onCollisionCerebroComCerebro)
+Runtime:addEventListener("collision", onCollisionGameOver)
 --Runtime:addEventListener("collision", onCollisionScore)
 timer.performWithDelay(500, sorteiaCerebro,0)
 Runtime:addEventListener("enterFrame", mostraTempo)
 Runtime:addEventListener("enterFrame", mostraScore)
+
 
 
 --for i=1, 10 do

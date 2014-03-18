@@ -17,7 +17,7 @@ function PlataformasThree:new()
 			self.plataforma1.isVisible = true
 			self.plataforma1:criar()
 			self.plataforma1:posicionarEsquerda()
-			
+
 		elseif(escolhido==2) then
 			self.plataforma2.isVisible = true
 			self.plataforma2:criar()
@@ -45,6 +45,7 @@ function PlataformasThree:new()
 				self.plataforma2:criar()
 				self.plataforma2:posicionarCentroDois(altura)
 			end
+
 			return outroSorteio
 		end
 		if(escolhido==2) then
