@@ -43,6 +43,7 @@ function PlataformasTwo:new()
 			self.plataforma1.isVisible = true
 			self.plataforma1:criar()
 			self.plataforma1:posicionarEsquerdaDois(altura)
+			
 			return escolhido
 		end
 		if(escolhido==2) then

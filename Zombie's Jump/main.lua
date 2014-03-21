@@ -47,6 +47,7 @@ pltImpar = {}
 tuplaImpar[1] = PlataformasThree:new()
 pltImpar[1] = tuplaImpar[1]:sorteia(sorteio)
 tuplaImpar[1].myName = "plataformasImpares"
+tuplaImpar[1].collType = "passthru"
 
 alt = 0
 
@@ -54,6 +55,7 @@ tuplaPar[1] = PlataformasTwo:new()
 pltPar[1] = tuplaPar[1]:proximoDois(sorteio, alt)
 
 tuplaPar[1].myName = "PlataformasPares"
+tuplaPar[1].collType = "passthru"
 for i=2, 10 do
 
 	alt = alt + 200
@@ -66,16 +68,16 @@ for i=2, 10 do
 
 	tuplaPar[i].myName = "plataformasPares"
 	tuplaImpar[i].myName = "plataformasImpares"
+	
+	tuplaImpar[i].collType = "passthru"
+	tuplaPar[i].collType = "passthru"
 
 
 	--esta porcaria não funciona!!!!!!!!!!!!
-	zumbi:addEventListener( "preCollision", function ( event )
-	    local plataformas = event.other
-	    if plataformas.myName == "plataformasPares" or plataformas.myName == "plataformasImpares" then
-	        event.contact.isEnabled = false
-	        print( "estou aqui" )
-	    end
-	end )
+	--zumbi:addEventListener( "preCollision" )
+	
+	print (tuplaPar[i].collType)
+	print (tuplaImpar[i].collType)
 
 end
 
@@ -100,10 +102,6 @@ function display:tap (event)
 	if (event.x < display.contentWidth/2) then
 		transition.to( zumbi, {time=1000, x = zumbi.x-100, y = zumbi.y-80} ) --x = zumbi.x-155, y = zumbi.y-230
 		--zumbi:applyLinearImpulse(  50, 1, zumbi.x-150, zumbi.y-230 )
-
-		--cerebro.isVisible = false
-
-		--transition.to( cerebro, {time=3000, alpha=0} )
 		score = score + 1
 	else 
 		transition.to( zumbi, {time=1000, x = zumbi.x+155, y = zumbi.y -230} )
@@ -125,7 +123,7 @@ local function onCollisionCerebro(event)
 		print ("cerebros: " .. qtdCerebros)
 		removeCerebro:removeSelf()
 	end
-end
+end 
 
 local function onCollisionCerebroComCerebro(event)
 	if( event.object1.myName == "cerebro" and event.object2.myName == "cerebro" ) then
@@ -200,6 +198,30 @@ local function onCollisionGameOver(event)
 	end
 end
 
+function zumbi:preCollision ( event )
+	    local plataformas = event.other
+		print( "estou aqui", plataformas.collType )
+	    --if plataformas.myName == "plataformasPares" or plataformas.myName == "plataformasImpares" then
+		if plataformas.collType == "passthru" then
+	        event.contact.isEnabled = false
+			self.isSensor = true ; self.setAsSensor = true
+			--plataformas.contact.isEnabled = false
+			--plataformas.bodyType = "kinematic"
+			--plataformas.isSensor = true
+			
+	        
+	    end
+end
+
+function zumbi:collision( event )
+	print ("cheguei")
+	if ( event.phase == "began" ) then
+		event.contact.isEnabled = true
+		self.isSensor = false ; self.setAsSensor = false
+	end
+	
+end
+
 --local function onCollisionScore(event)
 --	if( ( event.object1.myName == "zumbi" and event.object2.myName == "plataformas_par" ) or 
 --		( event.object1.myName == "plataformas_par" and event.object2.myName == "zumbi" ) or
@@ -220,6 +242,8 @@ Runtime:addEventListener("collision", onCollisionGameOver)
 timer.performWithDelay(500, sorteiaCerebro,0)
 Runtime:addEventListener("enterFrame", mostraTempo)
 Runtime:addEventListener("enterFrame", mostraScore)
+zumbi:addEventListener( "preCollision" )
+zumbi:addEventListener( "collision" )
 
 
 
