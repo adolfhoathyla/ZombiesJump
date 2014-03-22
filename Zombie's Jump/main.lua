@@ -5,12 +5,16 @@ fisica.setGravity(0, 9.8)
 require( "PlataformasThree" )
 require("PlataformasTwo")
 
+local game = display.newGroup( );
+
 local background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
 background.x = display.contentWidth*0.5
 background.y = display.contentHeight*0.5
+game:insert( background )
 
 local zumbi = display.newImageRect( "zumbi.png", 80, 80 )
 zumbi.myName = "zumbi"
+game:insert( zumbi, true )
 
 local chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 20)
 local paredeesquerda = display.newRect(0,0,20, display.contentHeight*2)
@@ -24,6 +28,10 @@ fisica.addBody(chao, "kinematic", {isSensor=true})
 fisica.addBody(paredeesquerda, "kinematic", {isSensor=true})
 fisica.addBody(parededireita, "kinematic", {isSensor=true})
 
+game:insert( chao )
+game:insert( paredeesquerda )
+game:insert( parededireita )
+
 score = 0
 
 tempo = 0
@@ -35,6 +43,9 @@ messageTempo.y = (display.contentHeight+100)-display.contentHeight
 messageScore = display.newText( "Score: ".. score, 250, 50, native.systemFont, 50 )
 messageScore.x = (display.contentWidth+150)-display.contentWidth
 messageScore.y = (display.contentHeight+150)-display.contentHeight
+
+game:insert( messageTempo )
+game:insert( messageScore )
 
 --inicio, lógica das plataformas
 sorteio = math.random(1, 3)
@@ -71,10 +82,6 @@ for i=2, 10 do
 	
 	tuplaImpar[i].collType = "passthru"
 	tuplaPar[i].collType = "passthru"
-
-
-	--esta porcaria não funciona!!!!!!!!!!!!
-	--zumbi:addEventListener( "preCollision" )
 	
 	print (tuplaPar[i].myName)
 	print (tuplaImpar[i].myName)
@@ -145,7 +152,7 @@ local function sorteiaCerebro()
 	if (sorteioCerebro==1) then
 		cerebro = display.newImageRect( "cerebro.png", 60, 60 )
 		cerebro.myName = "cerebro"
-		fisica.addBody(cerebro, {bounce = 0.1, friction=1, density=1})
+		fisica.addBody(cerebro, {bounce = 0.0, friction=1, density=1})
 		local sorteioPosicaoCerebro = math.random( 1, 5 )
 		if (sorteioPosicaoCerebro==1) then
 			cerebro.x = display.contentWidth/2-320
@@ -218,14 +225,23 @@ function zumbi:collision( event )
 	--plataformas.collType = "fixe"
 	if ( event.phase == "began" ) then
 		event.contact.isEnabled = true
-		--print ("alguma coisa")
-		--score = score + 1
 		self.isSensor = false ; self.setAsSensor = false
+		--print ("alguma coisa")
+		if event.other.myName ~= "cerebro"  then
+			score = score + 1
+		end
+		
 	end
 	
 end
 
---local function onCollisionScore(event)
+local function moveCamera()
+		game.y = game.y - 3
+end
+
+--function onCollisionScore(event)
+--	print ("objeto 1: ", event.object1.myName)
+--	print ("objeto 2: ", event.object2.myName)
 --	if( ( event.object1.myName == "zumbi" and event.object2.myName == "plataformasPares" ) or 
 --		( event.object1.myName == "plataformasPares" and event.object2.myName == "zumbi" ) or
 --		( event.object1.myName == "zumbi" and event.object2.myName == "plataformasImpares" ) or 
@@ -235,22 +251,23 @@ end
 --	end
 --end
 
-function zumbi:onCollisionScore(event)
+--function zumbi:onCollisionScore(event)
 
-	local plataforma = event.other
-	print ("colisão score", plataforma.myName)
-	if( plataforma.myName == "plataformasPares" or plataforma.myName == "plataformasImpares" ) then
-		score = score + 1
-		print ("score: " .. score)
-	end
-end
+--	local plataforma = event.other
+--	print ("colisão score", plataforma.myName)
+--	if( plataforma.myName == "plataformasPares" or plataforma.myName == "plataformasImpares" ) then
+--		score = score + 1
+--		print ("score: " .. score)
+--	end
+--end
 
 Runtime:addEventListener( "tap", display )
 Runtime:addEventListener("collision", onCollisionCerebro)
 Runtime:addEventListener("collision", onCollisionCerebroComCerebro)
 Runtime:addEventListener("collision", onCollisionGameOver)
-zumbi:addEventListener("collision", onCollisionScore)
+--Runtime:addEventListener("collision", onCollisionScore)
 timer.performWithDelay(500, sorteiaCerebro,0)
+timer.performWithDelay(30, moveCamera,0)
 Runtime:addEventListener("enterFrame", mostraTempo)
 Runtime:addEventListener("enterFrame", mostraScore)
 zumbi:addEventListener( "preCollision" )

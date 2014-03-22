@@ -14,7 +14,7 @@ function Plataforma:new( )
 		if (plataforma.isVisible) then
 			self.plataformaValendo = display.newImageRect( "plataforma.png", 100, 20 )
 			--self.plataformaValendo.collType = "fixe"
-			fisica.addBody(self.plataformaValendo, "static", {bounce = 0.1, friction=1})
+			fisica.addBody(self.plataformaValendo, "static", {bounce = 0.0, friction=1, density=1})
 		end
 	end
 
