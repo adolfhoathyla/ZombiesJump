@@ -76,8 +76,8 @@ for i=2, 10 do
 	--esta porcaria não funciona!!!!!!!!!!!!
 	--zumbi:addEventListener( "preCollision" )
 	
-	print (tuplaPar[i].collType)
-	print (tuplaImpar[i].collType)
+	print (tuplaPar[i].myName)
+	print (tuplaImpar[i].myName)
 
 end
 
@@ -100,12 +100,10 @@ fisica.addBody(zumbi, "dynamic", {bounce = 0.1, friction=1, density=1})
 
 function display:tap (event)
 	if (event.x < display.contentWidth/2) then
-		transition.to( zumbi, {time=1000, x = zumbi.x-100, y = zumbi.y-80} ) --x = zumbi.x-155, y = zumbi.y-230
+		transition.to( zumbi, {time=500, x = zumbi.x-155, y = zumbi.y-100} ) 
 		--zumbi:applyLinearImpulse(  50, 1, zumbi.x-150, zumbi.y-230 )
-		score = score + 1
 	else 
-		transition.to( zumbi, {time=1000, x = zumbi.x+155, y = zumbi.y -230} )
-		score = score + 1
+		transition.to( zumbi, {time=500, x = zumbi.x+155, y = zumbi.y -100} )
 	end
 end
 
@@ -199,10 +197,11 @@ local function onCollisionGameOver(event)
 end
 
 function zumbi:preCollision ( event )
-	    local plataformas = event.other
-		print( "estou aqui", plataformas.collType )
+		local plataforma = event.other
+		--print( "Pre colisao", event.other.collType )
+		--plataformas.collType = "passthru"
 	    --if plataformas.myName == "plataformasPares" or plataformas.myName == "plataformasImpares" then
-		if plataformas.collType == "passthru" then
+		if event.other.collType == "passthru" then
 	        event.contact.isEnabled = false
 			self.isSensor = true ; self.setAsSensor = true
 			--plataformas.contact.isEnabled = false
@@ -214,31 +213,43 @@ function zumbi:preCollision ( event )
 end
 
 function zumbi:collision( event )
-	print ("cheguei")
+	local plataformas = event.other
+	--print ("Colisao", plataformas.collType)
+	--plataformas.collType = "fixe"
 	if ( event.phase == "began" ) then
 		event.contact.isEnabled = true
+		--print ("alguma coisa")
+		--score = score + 1
 		self.isSensor = false ; self.setAsSensor = false
 	end
 	
 end
 
 --local function onCollisionScore(event)
---	if( ( event.object1.myName == "zumbi" and event.object2.myName == "plataformas_par" ) or 
---		( event.object1.myName == "plataformas_par" and event.object2.myName == "zumbi" ) or
---		( event.object1.myName == "zumbi" and event.object2.myName == "plataformas_impar" ) or 
---		( event.object1.myName == "plataformas_impar" and event.object2.myName == "zumbi" )) then
+--	if( ( event.object1.myName == "zumbi" and event.object2.myName == "plataformasPares" ) or 
+--		( event.object1.myName == "plataformasPares" and event.object2.myName == "zumbi" ) or
+--		( event.object1.myName == "zumbi" and event.object2.myName == "plataformasImpares" ) or 
+--		( event.object1.myName == "plataformasImpares" and event.object2.myName == "zumbi" )) then
 --		score = score + 1
 --		print ("score: " .. score)
 --	end
 --end
 
---mostraScore()
+function zumbi:onCollisionScore(event)
+
+	local plataforma = event.other
+	print ("colisão score", plataforma.myName)
+	if( plataforma.myName == "plataformasPares" or plataforma.myName == "plataformasImpares" ) then
+		score = score + 1
+		print ("score: " .. score)
+	end
+end
 
 Runtime:addEventListener( "tap", display )
 Runtime:addEventListener("collision", onCollisionCerebro)
 Runtime:addEventListener("collision", onCollisionCerebroComCerebro)
 Runtime:addEventListener("collision", onCollisionGameOver)
---Runtime:addEventListener("collision", onCollisionScore)
+zumbi:addEventListener("collision", onCollisionScore)
 timer.performWithDelay(500, sorteiaCerebro,0)
 Runtime:addEventListener("enterFrame", mostraTempo)
 Runtime:addEventListener("enterFrame", mostraScore)
