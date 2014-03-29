@@ -116,15 +116,36 @@ qtdCerebros = 0
 
 local function onCollisionCerebro(event)
 	if( event.object1.myName == "zumbi" and event.object2.myName == "cerebro" ) then
-		local removeCerebro = event.object2
-		qtdCerebros = qtdCerebros + 1
-		print ("cerebros: " .. qtdCerebros)
-		removeCerebro:removeSelf( )
-	elseif ( event.object1.myName == "cerebro" and event.object2.myName == "zumbi" ) then
-		local removeCerebro = event.object1
-		qtdCerebros = qtdCerebros + 1
-		print ("cerebros: " .. qtdCerebros)
-		removeCerebro:removeSelf()
+		if event.object2.valor == 1 then
+			local removeCerebro = event.object2
+			qtdCerebros = qtdCerebros + 1
+			print ("cerebros: " .. qtdCerebros)
+			life.x = life.x + 90
+			removeCerebro:removeSelf( )
+		elseif event.object2.valor == 2 then
+			local removeCerebro = event.object2
+			qtdCerebros = qtdCerebros + 2
+			print ("cerebros: " .. qtdCerebros)
+			life.x = life.x + 220
+			score = score + 5
+			removeCerebro:removeSelf( )
+		end
+	end
+	if ( event.object1.myName == "cerebro" and event.object2.myName == "zumbi" ) then
+		if event.object1.valor == 1 then
+			local removeCerebro = event.object1
+			qtdCerebros = qtdCerebros + 1
+			print ("cerebros: " .. qtdCerebros)
+			life.x = life.x + 90
+			removeCerebro:removeSelf()
+		elseif event.object1.valor == 2 then
+			local removeCerebro = event.object1
+			qtdCerebros = qtdCerebros + 1
+			print ("cerebros: " .. qtdCerebros)
+			life.x = life.x + 220
+			score = score + 5
+			removeCerebro:removeSelf()
+		end
 	end
 end 
 
@@ -134,9 +155,14 @@ local function onCollisionCerebroComCerebro(event)
 		cerebroSlave = event.object2
 		escalaX = cerebroMaster.xScale * 1.5
 		escalaY = cerebroMaster.yScale * 1.5
+		cerebroMaster.valor = 2
+
+		print( "valor cérebro master ", cerebroMaster.valor )
+		print( "valor cérebro slave ", cerebroSlave.valor )
 		if cerebroMaster.xScale < escalaX then
 			cerebroMaster.xScale = cerebroSlave.xScale * 1.5
 			cerebroMaster.yScale = cerebroSlave.yScale * 1.5
+			cerebroMaster.valor = 2
 			cerebroSlave:removeSelf( )
 		else 
 			cerebroSlave:removeSelf( )
@@ -150,7 +176,9 @@ local function sorteiaCerebro()
 	if (sorteioCerebro==1) then
 		cerebro = display.newImageRect( "cerebro.png", 60, 60 )
 		cerebro.myName = "cerebro"
+		cerebro.valor = 1
 		fisica.addBody(cerebro, {bounce = 0.0, friction=1, density=1})
+		print ("valor cérebro ", cerebro.valor)
 		local sorteioPosicaoCerebro = math.random( 1, 5 )
 		if (sorteioPosicaoCerebro==1) then
 			cerebro.x = display.contentWidth/2-320
