@@ -38,6 +38,10 @@ function PlataformaDois:new( )
 		self.plataformaValendo.y = (display.contentHeight-180)-altura
 	end
 
+	function plataforma_dois:movimentar()
+		self.plataformaValendo.y = self.plataformaValendo.y + 10
+	end
+
 	return plataforma_dois
 end
 

@@ -33,8 +33,6 @@ function Plataforma:new( )
 		self.plataformaValendo.y = display.contentHeight-80
 	end
 
-	--testando
-
 
 	function plataforma:posicionarEsquerdaDois(altura)
 		self.plataformaValendo.x = display.contentWidth/2-320
@@ -49,6 +47,10 @@ function Plataforma:new( )
 	function plataforma:posicionarCentroDois(altura)
 		self.plataformaValendo.x = display.contentWidth/2
 		self.plataformaValendo.y = (display.contentHeight-80)-altura
+	end
+
+	function plataforma:movimentar()
+		self.plataformaValendo.y = self.plataformaValendo.y + 10
 	end
 
 	return plataforma

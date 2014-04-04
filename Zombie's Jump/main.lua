@@ -5,7 +5,9 @@ fisica.setGravity(0, 9.8)
 require( "PlataformasThree" )
 require("PlataformasTwo")
 
---local game = display.newGroup( );
+local widget = require( "widget" )
+
+local game = display.newGroup( );
 
 local background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
 background.x = display.contentWidth*0.5
@@ -32,6 +34,9 @@ fisica.addBody(chao, "kinematic", {isSensor=true})
 fisica.addBody(paredeesquerda, "kinematic", {isSensor=true})
 fisica.addBody(parededireita, "kinematic", {isSensor=true})
 
+local somPulo = audio.loadSound("boing_wav.wav")
+local somComerCerebro = audio.loadSound("squish_wav.wav")
+
 --game:insert( chao )
 --game:insert( paredeesquerda )
 --game:insert( parededireita )
@@ -42,7 +47,6 @@ messageScore = display.newText( "Score: ".. score, 250, 50, native.systemFont, 5
 messageScore.x = (display.contentWidth+150)-display.contentWidth
 messageScore.y = (display.contentHeight+80)-display.contentHeight
 
---game:insert( messageTempo )
 --game:insert( messageScore )
 
 --inicio, lógica das plataformas
@@ -65,6 +69,7 @@ pltPar[1] = tuplaPar[1]:proximoDois(sorteio, alt)
 
 tuplaPar[1].myName = "PlataformasPares"
 tuplaPar[1].collType = "passthru"
+
 for i=2, 10 do
 
 	alt = alt + 200
@@ -80,6 +85,9 @@ for i=2, 10 do
 	
 	tuplaImpar[i].collType = "passthru"
 	tuplaPar[i].collType = "passthru"
+
+	--timer.performWithDelay(100, tuplaImpar[i]:tempinhoPlat(pltPar[i-1]), 0)
+	--timer.performWithDelay(100, tuplaPar[i]:tempinhoPlat(pltImpar[i]), 0)
 	
 	print (tuplaPar[i].myName)
 	print (tuplaImpar[i].myName)
@@ -107,8 +115,10 @@ function display:tap (event)
 	if (event.x < display.contentWidth/2) then
 		transition.to( zumbi, {time=500, x = zumbi.x-155, y = zumbi.y-100} ) 
 		--zumbi:applyLinearImpulse(  50, 1, zumbi.x-150, zumbi.y-230 )
+		audio.play ( somPulo )
 	else 
 		transition.to( zumbi, {time=500, x = zumbi.x+155, y = zumbi.y -100} )
+		audio.play ( somPulo )
 	end
 end
 
@@ -121,6 +131,7 @@ local function onCollisionCerebro(event)
 			qtdCerebros = qtdCerebros + 1
 			print ("cerebros: " .. qtdCerebros)
 			life.x = life.x + 90
+			audio.play ( somComerCerebro )
 			removeCerebro:removeSelf( )
 		elseif event.object2.valor == 2 then
 			local removeCerebro = event.object2
@@ -128,6 +139,7 @@ local function onCollisionCerebro(event)
 			print ("cerebros: " .. qtdCerebros)
 			life.x = life.x + 220
 			score = score + 5
+			audio.play ( somComerCerebro )
 			removeCerebro:removeSelf( )
 		end
 	end
@@ -157,8 +169,6 @@ local function onCollisionCerebroComCerebro(event)
 		escalaY = cerebroMaster.yScale * 1.5
 		cerebroMaster.valor = 2
 
-		print( "valor cérebro master ", cerebroMaster.valor )
-		print( "valor cérebro slave ", cerebroSlave.valor )
 		if cerebroMaster.xScale < escalaX then
 			cerebroMaster.xScale = cerebroSlave.xScale * 1.5
 			cerebroMaster.yScale = cerebroSlave.yScale * 1.5
@@ -178,7 +188,6 @@ local function sorteiaCerebro()
 		cerebro.myName = "cerebro"
 		cerebro.valor = 1
 		fisica.addBody(cerebro, {bounce = 0.0, friction=1, density=1})
-		print ("valor cérebro ", cerebro.valor)
 		local sorteioPosicaoCerebro = math.random( 1, 5 )
 		if (sorteioPosicaoCerebro==1) then
 			cerebro.x = display.contentWidth/2-320
@@ -229,9 +238,13 @@ function zumbi:preCollision ( event )
 		--print( "Pre colisao", event.other.collType )
 		--plataformas.collType = "passthru"
 	    --if plataformas.myName == "plataformasPares" or plataformas.myName == "plataformasImpares" then
+	    print ("cheguei antes")
+	    event.other.bodyType = "kinematic"
 		if event.other.collType == "passthru" then
 	        event.contact.isEnabled = false
 			self.isSensor = true ; self.setAsSensor = true
+			event.other.bodyType = "kinematic"
+			print ("cheguei aqui")
 			--plataformas.contact.isEnabled = false
 			--plataformas.bodyType = "kinematic"
 			--plataformas.isSensor = true
@@ -256,9 +269,9 @@ function zumbi:collision( event )
 	
 end
 
---local function moveCamera()
-		--game.y = game.y - 3
---end
+local function moveCamera()
+		game.y = zumbi.y - 3
+end
 
 function andamentoLife()
 	life.x = life.x -3
@@ -296,7 +309,7 @@ zumbi:addEventListener( "preCollision" )
 zumbi:addEventListener( "collision" )
 --Runtime:addEventListener("collision", onCollisionScore)
 timer.performWithDelay(500, sorteiaCerebro,0)
---timer.performWithDelay(30, moveCamera,0)
+timer.performWithDelay(30, moveCamera,0)
 timer.performWithDelay(100, andamentoLife,0)
 
 
