@@ -22,9 +22,9 @@ local zumbi = display.newImageRect( "zumbi.png", 80, 80 )
 zumbi.myName = "zumbi"
 --game:insert( zumbi, true )
 
-local chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 1)
-local paredeesquerda = display.newRect(0,0,1, display.contentHeight*2)
-local parededireita = display.newRect(display.contentWidth, display.contentHeight,1, display.contentHeight*2)
+chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 1)
+paredeesquerda = display.newRect(0,0,1, display.contentHeight*2)
+parededireita = display.newRect(display.contentWidth, display.contentHeight,1, display.contentHeight*2)
 
 chao.myName = "chao"
 parededireita.myName = "paredeDireita"
@@ -62,6 +62,14 @@ pltImpar[1] = tuplaImpar[1]:sorteia(sorteio)
 tuplaImpar[1].myName = "plataformasImpares"
 tuplaImpar[1].collType = "passthru"
 
+if sorteio==1 then
+	transition.to(tuplaImpar[1].plataforma1.plataformaValendo,{time=5000,y = tuplaImpar[1].plataforma1.plataformaValendo.y + 100})
+elseif sorteio==2 then
+	transition.to(tuplaImpar[1].plataforma2.plataformaValendo,{time=5000,y = tuplaImpar[1].plataforma2.plataformaValendo.y + 100})
+elseif sorteio==3 then
+	transition.to(tuplaImpar[1].plataforma3.plataformaValendo,{time=5000,y = tuplaImpar[1].plataforma3.plataformaValendo.y + 100})
+end
+
 alt = 0
 
 tuplaPar[1] = PlataformasTwo:new()
@@ -70,24 +78,42 @@ pltPar[1] = tuplaPar[1]:proximoDois(sorteio, alt)
 tuplaPar[1].myName = "PlataformasPares"
 tuplaPar[1].collType = "passthru"
 
+if pltPar[1]==1 then
+	transition.to(tuplaPar[1].plataforma1.plataformaValendo,{time=5000,y = tuplaPar[1].plataforma1.plataformaValendo.y + 100})
+elseif pltPar[1]==2 then
+	transition.to(tuplaPar[1].plataforma2.plataformaValendo,{time=5000,y = tuplaPar[1].plataforma2.plataformaValendo.y + 100})
+end
+
 for i=2, 10 do
 
 	alt = alt + 200
 
 	tuplaImpar[i] = PlataformasThree:new()
 	pltImpar[i] = tuplaImpar[i]:sorteiaDois(pltPar[i-1], alt)
+	
+	if pltImpar[i]==1 then
+		transition.to(tuplaImpar[i].plataforma1.plataformaValendo,{time=5000,y = tuplaImpar[i].plataforma1.plataformaValendo.y + 100})
+	elseif pltImpar[i]==2 then
+		transition.to(tuplaImpar[i].plataforma2.plataformaValendo,{time=5000,y = tuplaImpar[i].plataforma2.plataformaValendo.y + 100})
+	elseif pltImpar[i]==3 then
+		transition.to(tuplaImpar[i].plataforma3.plataformaValendo,{time=5000,y = tuplaImpar[i].plataforma3.plataformaValendo.y + 100})
+	end
 
 	tuplaPar[i] = PlataformasTwo:new()
 	pltPar[i] = tuplaPar[i]:proximoDois(pltImpar[i], alt)
+	
+	if pltPar[i]==1 then
+		transition.to(tuplaPar[i].plataforma1.plataformaValendo,{time=5000,y = tuplaPar[i].plataforma1.plataformaValendo.y + 100})
+	elseif pltPar[i]==2 then
+		transition.to(tuplaPar[i].plataforma2.plataformaValendo,{time=5000,y = tuplaPar[i].plataforma2.plataformaValendo.y + 100})
+	end
+	
 
 	tuplaPar[i].myName = "plataformasPares"
 	tuplaImpar[i].myName = "plataformasImpares"
 	
 	tuplaImpar[i].collType = "passthru"
 	tuplaPar[i].collType = "passthru"
-
-	--timer.performWithDelay(100, tuplaImpar[i]:tempinhoPlat(pltPar[i-1]), 0)
-	--timer.performWithDelay(100, tuplaPar[i]:tempinhoPlat(pltImpar[i]), 0)
 	
 	print (tuplaPar[i].myName)
 	print (tuplaImpar[i].myName)
@@ -230,6 +256,7 @@ local function onCollisionGameOver(event)
 		gameOver.x = display.contentWidth/2
 		gameOver.y = display.contentHeight/2
 		score = 0
+		transition.pause()
 	end
 end
 
@@ -253,6 +280,7 @@ function zumbi:preCollision ( event )
 	    end
 end
 
+--ajustar essa função. Ocorre um erro: 'contact' a nil valor
 function zumbi:collision( event )
 	local plataformas = event.other
 	--print ("Colisao", plataformas.collType)
@@ -269,14 +297,23 @@ function zumbi:collision( event )
 	
 end
 
-local function moveCamera()
-		game.y = zumbi.y - 3
+function chao:collision( event )
+	if ( event.phase == "began" ) then
+		event.other:removeSelf()
+		print ("cheguei na remocao dos objetos no chao")
+	end
+	
 end
 
 function andamentoLife()
 	life.x = life.x -3
 	print( life.x )
 end
+
+--fazer essa função de acordo com o código da movimentação das plataformas que está dentro do for
+--function movimentoPlataformas()
+	
+--end
 
 --function onCollisionScore(event)
 --	print ("objeto 1: ", event.object1.myName)
@@ -307,9 +344,9 @@ Runtime:addEventListener("collision", onCollisionGameOver)
 Runtime:addEventListener("enterFrame", mostraScore)
 zumbi:addEventListener( "preCollision" )
 zumbi:addEventListener( "collision" )
+chao:addEventListener( "collision" )
 --Runtime:addEventListener("collision", onCollisionScore)
 timer.performWithDelay(500, sorteiaCerebro,0)
-timer.performWithDelay(30, moveCamera,0)
 timer.performWithDelay(100, andamentoLife,0)
 
 
