@@ -17,6 +17,7 @@ background.y = display.contentHeight*0.5
 
 life = display.newRect( 1, display.contentHeight, display.contentWidth*2, 80 )
 life:setFillColor(0, 255, 255)
+life.MyName = "life"
 
 local zumbi = display.newImageRect( "zumbi.png", 80, 80 )
 zumbi.myName = "zumbi"
@@ -63,11 +64,11 @@ tuplaImpar[1].myName = "plataformasImpares"
 tuplaImpar[1].collType = "passthru"
 
 if sorteio==1 then
-	transition.to(tuplaImpar[1].plataforma1.plataformaValendo,{time=5000,y = tuplaImpar[1].plataforma1.plataformaValendo.y + 100})
+	transition.to(tuplaImpar[1].plataforma1.plataformaValendo,{time=300000,y = tuplaImpar[1].plataforma1.plataformaValendo.y + 20000})
 elseif sorteio==2 then
-	transition.to(tuplaImpar[1].plataforma2.plataformaValendo,{time=5000,y = tuplaImpar[1].plataforma2.plataformaValendo.y + 100})
+	transition.to(tuplaImpar[1].plataforma2.plataformaValendo,{time=300000,y = tuplaImpar[1].plataforma2.plataformaValendo.y + 20000})
 elseif sorteio==3 then
-	transition.to(tuplaImpar[1].plataforma3.plataformaValendo,{time=5000,y = tuplaImpar[1].plataforma3.plataformaValendo.y + 100})
+	transition.to(tuplaImpar[1].plataforma3.plataformaValendo,{time=300000,y = tuplaImpar[1].plataforma3.plataformaValendo.y + 20000})
 end
 
 alt = 0
@@ -79,12 +80,12 @@ tuplaPar[1].myName = "PlataformasPares"
 tuplaPar[1].collType = "passthru"
 
 if pltPar[1]==1 then
-	transition.to(tuplaPar[1].plataforma1.plataformaValendo,{time=5000,y = tuplaPar[1].plataforma1.plataformaValendo.y + 100})
+	transition.to(tuplaPar[1].plataforma1.plataformaValendo,{time=300000,y = tuplaPar[1].plataforma1.plataformaValendo.y + 20000})
 elseif pltPar[1]==2 then
-	transition.to(tuplaPar[1].plataforma2.plataformaValendo,{time=5000,y = tuplaPar[1].plataforma2.plataformaValendo.y + 100})
+	transition.to(tuplaPar[1].plataforma2.plataformaValendo,{time=300000,y = tuplaPar[1].plataforma2.plataformaValendo.y + 20000})
 end
 
-for i=2, 10 do
+for i=2, 100 do
 
 	alt = alt + 200
 
@@ -92,22 +93,25 @@ for i=2, 10 do
 	pltImpar[i] = tuplaImpar[i]:sorteiaDois(pltPar[i-1], alt)
 	
 	if pltImpar[i]==1 then
-		transition.to(tuplaImpar[i].plataforma1.plataformaValendo,{time=5000,y = tuplaImpar[i].plataforma1.plataformaValendo.y + 100})
+		transition.to(tuplaImpar[i].plataforma1.plataformaValendo,{time=300000,y = tuplaImpar[i].plataforma1.plataformaValendo.y + 20000})
 	elseif pltImpar[i]==2 then
-		transition.to(tuplaImpar[i].plataforma2.plataformaValendo,{time=5000,y = tuplaImpar[i].plataforma2.plataformaValendo.y + 100})
+		transition.to(tuplaImpar[i].plataforma2.plataformaValendo,{time=300000,y = tuplaImpar[i].plataforma2.plataformaValendo.y + 20000})
 	elseif pltImpar[i]==3 then
-		transition.to(tuplaImpar[i].plataforma3.plataformaValendo,{time=5000,y = tuplaImpar[i].plataforma3.plataformaValendo.y + 100})
+		transition.to(tuplaImpar[i].plataforma3.plataformaValendo,{time=300000,y = tuplaImpar[i].plataforma3.plataformaValendo.y + 20000})
 	end
+
+	--timer.performWithDelay(100, movimentoPlataformasTuplaImpar(pltImpar[i], tuplaImpar[i]),0)
 
 	tuplaPar[i] = PlataformasTwo:new()
 	pltPar[i] = tuplaPar[i]:proximoDois(pltImpar[i], alt)
 	
 	if pltPar[i]==1 then
-		transition.to(tuplaPar[i].plataforma1.plataformaValendo,{time=5000,y = tuplaPar[i].plataforma1.plataformaValendo.y + 100})
+		transition.to(tuplaPar[i].plataforma1.plataformaValendo,{time=300000,y = tuplaPar[i].plataforma1.plataformaValendo.y + 20000})
 	elseif pltPar[i]==2 then
-		transition.to(tuplaPar[i].plataforma2.plataformaValendo,{time=5000,y = tuplaPar[i].plataforma2.plataformaValendo.y + 100})
+		transition.to(tuplaPar[i].plataforma2.plataformaValendo,{time=300000,y = tuplaPar[i].plataforma2.plataformaValendo.y + 20000})
 	end
-	
+
+	--timer.performWithDelay(100, movimentoPlataformasTuplaPar(pltPar[i], tuplaPar[i]),0)	
 
 	tuplaPar[i].myName = "plataformasPares"
 	tuplaImpar[i].myName = "plataformasImpares"
@@ -139,11 +143,11 @@ fisica.addBody(zumbi, "dynamic", {bounce = 0.1, friction=1, density=1})
 
 function display:tap (event)
 	if (event.x < display.contentWidth/2) then
-		transition.to( zumbi, {time=500, x = zumbi.x-155, y = zumbi.y-100} ) 
+		transition.to( zumbi, {time=500, x = zumbi.x-155, y = zumbi.y-45} ) 
 		--zumbi:applyLinearImpulse(  50, 1, zumbi.x-150, zumbi.y-230 )
 		audio.play ( somPulo )
 	else 
-		transition.to( zumbi, {time=500, x = zumbi.x+155, y = zumbi.y -100} )
+		transition.to( zumbi, {time=500, x = zumbi.x+155, y = zumbi.y -45} )
 		audio.play ( somPulo )
 	end
 end
@@ -256,7 +260,7 @@ local function onCollisionGameOver(event)
 		gameOver.x = display.contentWidth/2
 		gameOver.y = display.contentHeight/2
 		score = 0
-		transition.pause()
+		--transition.pause()
 	end
 end
 
@@ -289,7 +293,7 @@ function zumbi:collision( event )
 		event.contact.isEnabled = true
 		self.isSensor = false ; self.setAsSensor = false
 		--print ("alguma coisa")
-		if event.other.myName ~= "cerebro"  then
+		if event.other.myName ~= "cerebro" and event.other.myName ~= "life"  then
 			score = score + 1
 		end
 		
@@ -311,8 +315,22 @@ function andamentoLife()
 end
 
 --fazer essa função de acordo com o código da movimentação das plataformas que está dentro do for
---function movimentoPlataformas()
-	
+--function movimentoPlataformasTuplaImpar( seguinte, obj )
+--	if seguinte==1 then
+--		transition.to(obj.plataforma1.plataformaValendo,{time=5000,y = obj.plataforma1.plataformaValendo.y + 100})
+--	elseif seguinte==2 then
+--		transition.to(obj.plataforma2.plataformaValendo,{time=5000,y = obj.plataforma2.plataformaValendo.y + 100})
+--	elseif seguinte==3 then
+--		transition.to(obj.plataforma3.plataformaValendo,{time=5000,y = obj.plataforma3.plataformaValendo.y + 100})
+--	end
+--end
+
+--function movimentoPlataformasTuplaPar( seguinte, obj )
+--	if seguinte==1 then
+--		transition.to(obj.plataforma1.plataformaValendo,{time=5000,y = obj.plataforma1.plataformaValendo.y + 100})
+--	elseif seguinte==2 then
+--		transition.to(obj.plataforma2.plataformaValendo,{time=5000,y = obj.plataforma2.plataformaValendo.y + 100})
+--	end
 --end
 
 --function onCollisionScore(event)
