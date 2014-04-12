@@ -3,7 +3,7 @@ local scene = storyboard.newScene()
 
 local fisica = require( "physics" )
 fisica.start()
-fisica.setGravity(0, 0)
+fisica.setGravity(0, 9.8)
 
 require( "PlataformasThree" )
 require("PlataformasTwo")
@@ -12,11 +12,11 @@ local widget = require( "widget" )
 
 function display:tap (event)
 	if (event.x < display.contentWidth/2) then
-		transition.to( zumbi, {time=500, x = zumbi.x-155, y = zumbi.y-45} ) 
+		transition.to( zumbi, {time=450, x = zumbi.x-155, y = zumbi.y-30} ) 
 		--zumbi:applyLinearImpulse(  50, 1, zumbi.x-150, zumbi.y-230 )
 		audio.play ( somPulo )
 	else 
-		transition.to( zumbi, {time=500, x = zumbi.x+155, y = zumbi.y -45} )
+		transition.to( zumbi, {time=450, x = zumbi.x+155, y = zumbi.y -30} )
 		audio.play ( somPulo )
 	end
 end
@@ -66,12 +66,16 @@ function onCollisionGameOver(event)
 		gameOver.x = display.contentWidth/2
 		gameOver.y = display.contentHeight/2
 		score = 0
-		--transition.pause()
+		transition.pause()
+		--timer.cancel(event.source)
 	end
 end
 
 function andamentoLife()
-	life.x = life.x -3
+	life.x = life.x -3 
+	if life.x < -(display.contentWidth*0.8) then
+		life:setFillColor(255, 0, 0)
+	end
 	print( life.x )
 end
 
@@ -127,6 +131,19 @@ function onCollisionCerebroComCerebro(event)
 	end
 end
 
+cont = 0
+
+function youReady(event)
+	if event.name == "tap" then
+		cont = cont + 1
+		if cont == 1 then
+			print ("YOU READY!! true")
+			ready:removeSelf( )
+			transition.resume()
+		end
+	end
+end
+
 function buttonHit(event)
 	storyboard.gotoScene ( event.target.destination, {effect = "slideUp"} )	
 	print( event.target.destination)
@@ -176,6 +193,11 @@ function scene:createScene( event )
 
 	group:insert( messageScore )
 
+	ready = display.newImageRect( "ready.png", 500, 300 )
+	ready.x = display.contentWidth*0.5
+	ready.y = display.contentHeight*0.5
+	--group:insert( ready )
+
 	sorteio = math.random(1, 3)
 
 	tuplaPar = {}
@@ -189,11 +211,11 @@ function scene:createScene( event )
 	tuplaImpar[1].collType = "passthru"
 
 	if sorteio==1 then
-		transition.to(tuplaImpar[1].plataforma1.plataformaValendo,{time=300000,y = tuplaImpar[1].plataforma1.plataformaValendo.y + 20000})
+		transition.to(tuplaImpar[1].plataforma1.plataformaValendo,{time=2800000,y = tuplaImpar[1].plataforma1.plataformaValendo.y + 250000})
 	elseif sorteio==2 then
-		transition.to(tuplaImpar[1].plataforma2.plataformaValendo,{time=300000,y = tuplaImpar[1].plataforma2.plataformaValendo.y + 20000})
+		transition.to(tuplaImpar[1].plataforma2.plataformaValendo,{time=2800000,y = tuplaImpar[1].plataforma2.plataformaValendo.y + 250000})
 	elseif sorteio==3 then
-		transition.to(tuplaImpar[1].plataforma3.plataformaValendo,{time=300000,y = tuplaImpar[1].plataforma3.plataformaValendo.y + 20000})
+		transition.to(tuplaImpar[1].plataforma3.plataformaValendo,{time=2800000,y = tuplaImpar[1].plataforma3.plataformaValendo.y + 250000})
 	end
 
 	alt = 0
@@ -205,9 +227,9 @@ function scene:createScene( event )
 	tuplaPar[1].collType = "passthru"
 
 	if pltPar[1]==1 then
-		transition.to(tuplaPar[1].plataforma1.plataformaValendo,{time=300000,y = tuplaPar[1].plataforma1.plataformaValendo.y + 20000})
+		transition.to(tuplaPar[1].plataforma1.plataformaValendo,{time=2800000,y = tuplaPar[1].plataforma1.plataformaValendo.y + 250000})
 	elseif pltPar[1]==2 then
-		transition.to(tuplaPar[1].plataforma2.plataformaValendo,{time=300000,y = tuplaPar[1].plataforma2.plataformaValendo.y + 20000})
+		transition.to(tuplaPar[1].plataforma2.plataformaValendo,{time=2800000,y = tuplaPar[1].plataforma2.plataformaValendo.y + 250000})
 	end
 
 	for i=2, 100 do
@@ -218,11 +240,11 @@ function scene:createScene( event )
 		pltImpar[i] = tuplaImpar[i]:sorteiaDois(pltPar[i-1], alt)
 		
 		if pltImpar[i]==1 then
-			transition.to(tuplaImpar[i].plataforma1.plataformaValendo,{time=300000,y = tuplaImpar[i].plataforma1.plataformaValendo.y + 20000})
+			transition.to(tuplaImpar[i].plataforma1.plataformaValendo,{time=2800000,y = tuplaImpar[i].plataforma1.plataformaValendo.y + 250000})
 		elseif pltImpar[i]==2 then
-			transition.to(tuplaImpar[i].plataforma2.plataformaValendo,{time=300000,y = tuplaImpar[i].plataforma2.plataformaValendo.y + 20000})
+			transition.to(tuplaImpar[i].plataforma2.plataformaValendo,{time=2800000,y = tuplaImpar[i].plataforma2.plataformaValendo.y + 250000})
 		elseif pltImpar[i]==3 then
-			transition.to(tuplaImpar[i].plataforma3.plataformaValendo,{time=300000,y = tuplaImpar[i].plataforma3.plataformaValendo.y + 20000})
+			transition.to(tuplaImpar[i].plataforma3.plataformaValendo,{time=2800000,y = tuplaImpar[i].plataforma3.plataformaValendo.y + 250000})
 		end
 
 
@@ -230,11 +252,14 @@ function scene:createScene( event )
 		pltPar[i] = tuplaPar[i]:proximoDois(pltImpar[i], alt)
 		
 		if pltPar[i]==1 then
-			transition.to(tuplaPar[i].plataforma1.plataformaValendo,{time=300000,y = tuplaPar[i].plataforma1.plataformaValendo.y + 20000})
+			transition.to(tuplaPar[i].plataforma1.plataformaValendo,{time=2800000,y = tuplaPar[i].plataforma1.plataformaValendo.y + 250000})
 		elseif pltPar[i]==2 then
-			transition.to(tuplaPar[i].plataforma2.plataformaValendo,{time=300000,y = tuplaPar[i].plataforma2.plataformaValendo.y + 20000})
+			transition.to(tuplaPar[i].plataforma2.plataformaValendo,{time=2800000,y = tuplaPar[i].plataforma2.plataformaValendo.y + 250000})
 		end
 
+		if cont == 0 then
+			transition.pause()
+		end
 
 		tuplaPar[i].myName = "plataformasPares"
 		tuplaImpar[i].myName = "plataformasImpares"
@@ -350,6 +375,7 @@ function scene:enterScene( event )
 	zumbi:addEventListener( "preCollision" )
 	zumbi:addEventListener( "collision" )
 	chao:addEventListener( "collision" )
+	Runtime:addEventListener( "tap", youReady )
 	timer.performWithDelay(500, sorteiaCerebro,0)
 	timer.performWithDelay(100, andamentoLife,0)
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
