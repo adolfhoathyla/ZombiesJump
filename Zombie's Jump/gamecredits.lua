@@ -7,6 +7,7 @@ local function buttonHit(event)
 	return true
 end
 
+local widget = require( "widget" )
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -14,16 +15,34 @@ function scene:createScene( event )
 
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
+
+	menu_song = audio.loadStream( "8bit Dungeon Boss.mp3" )
+
+	audio.play(menu_song)
 	
 	local title = display.newText( "Zombie's Jump Credits", 0, 0, "Helvetica", 38 )
 	title.x = centerX
 	title.y = display.screenOriginY + 40
 	group:insert(title)
 	
-	local backBtn = display.newText(  "Back", 0, 0, "Helvetica", 25 )
-	backBtn.x = centerX
-	backBtn.y = centerY + (display.contentHeight -400 )
-	backBtn.destination = "menu" 
+
+	local backBtn = widget.newButton
+	{
+		defaultFile = "buttonRed.png",
+		overFile = "buttonRedOver.png",
+		label = "Back",
+		labelColor = 
+		{ 
+			default = { 51, 51, 51, 255 },
+		},
+		fontSize = 22,
+		emboss = true,
+		onPress = button1Press,
+		onRelease = button1Release,
+		x = centerX,
+		y = centerY+(display.contentHeight -400 ),
+	}
+	backBtn.destination = "menu"
 	backBtn:addEventListener("tap", buttonHit)
 	group:insert(backBtn)
 
@@ -50,6 +69,8 @@ end
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
 	local group = self.view
+
+	audio.pause( menu_song )
 
 	-- INSERT code here (e.g. stop timers, remove listeners, unload sounds, etc.)
 	-- Remove listeners attached to the Runtime, timers, transitions, audio tracks

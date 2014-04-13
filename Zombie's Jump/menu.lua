@@ -3,6 +3,10 @@ local scene = storyboard.newScene()
 
 -- local forward references should go here --
 
+main_song = audio.loadStream( "main_music_zj.mp3" )
+
+local widget = require( "widget" )
+
 local function buttonHit(event)
 	storyboard.gotoScene (  event.target.destination, {effect = "slideDown"} )
 	return true
@@ -14,25 +18,58 @@ function scene:createScene( event )
 
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
+
+	menu_song = audio.loadStream( "8bit Dungeon Boss.mp3" )
+
+	audio.play( menu_song )
+
 	
 	local title = display.newText( "Zombie's Jump", 0, 0, "Helvetica", 38 )
 	title.x = centerX
 	title.y = display.screenOriginY + 40
+	title:setFillColor( 255, 255, 255 )
 	group:insert(title)
-	
-	local playBtn = display.newText(  "Start", 0, 0, "Helvetica", 25 )
-	playBtn.x = centerX
-	playBtn.y = centerY
-	playBtn.destination = "play" 
+
+	local playBtn = widget.newButton
+	{
+		defaultFile = "buttonRed.png",
+		overFile = "buttonRedOver.png",
+		label = "Start",
+		labelColor = 
+		{ 
+			default = { 51, 51, 51, 255 },
+		},
+		fontSize = 22,
+		emboss = true,
+		onPress = button1Press,
+		onRelease = button1Release,
+		x = centerX,
+		y = centerY,
+	}
+	playBtn.destination = "play"
 	playBtn:addEventListener("tap", buttonHit)
 	group:insert(playBtn)
-	
-	local creditsBtn = display.newText(  "Credits", 0, 0, "Helvetica", 25 )
-	creditsBtn.x = centerX
-	creditsBtn.y = centerY + 80 
-	creditsBtn.destination = "gamecredits" 
+
+
+	local creditsBtn = widget.newButton
+	{
+		defaultFile = "buttonBlue.png",
+		overFile = "buttonBlueOver.png",
+		label = "Credits",
+		labelColor = 
+		{ 
+			default = { 51, 51, 51, 255 },
+		},
+		fontSize = 22,
+		emboss = true,
+		onPress = button1Press,
+		onRelease = button1Release,
+		x = centerX,
+		y = centerY+80,
+	}
+	creditsBtn.destination = "gamecredits"
 	creditsBtn:addEventListener("tap", buttonHit)
-	group:insert (creditsBtn)
+	group:insert(creditsBtn)
 	
 end
 
@@ -49,6 +86,8 @@ end
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
 	local group = self.view
+
+	audio.pause(menu_song)
 
 	-- INSERT code here (e.g. stop timers, remove listeners, unload sounds, etc.)
 	-- Remove listeners attached to the Runtime, timers, transitions, audio tracks
