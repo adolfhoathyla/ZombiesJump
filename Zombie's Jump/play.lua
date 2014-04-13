@@ -3,7 +3,7 @@ local scene = storyboard.newScene()
 
 local fisica = require( "physics" )
 fisica.start()
-fisica.setGravity(0, 9.8)
+fisica.setGravity(0, 100)
 
 require( "PlataformasThree" )
 require("PlataformasTwo")
@@ -170,6 +170,7 @@ function scene:createScene( event )
 	zumbi = display.newImageRect( "zumbi.png", 80, 80 )
 	zumbi.myName = "zumbi"
 	--zumbi.alpha = 0.5
+	zumbi.isFixedRotation = true
 	group:insert( zumbi )
 
 	chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 1)
@@ -307,12 +308,14 @@ function scene:createScene( event )
 	end
 
 	function zumbi:collision( event )
-		local plataformas = event.other
 		--print ("Colisao", plataformas.collType)
 		--plataformas.collType = "fixe"
 		if ( event.phase == "began" ) then
 			event.contact.isEnabled = true
-			self.isSensor = false ; self.setAsSensor = false
+			self.isSensor = false 
+			self.isAwake = true
+			self.linearDamping = 1
+			--self.setAsSensor = false
 			--print ("alguma coisa")
 			if event.other.myName ~= "cerebro" and event.other.myName ~= "life"  then
 				score = score + 1
@@ -323,7 +326,6 @@ function scene:createScene( event )
 	end
 
 	function zumbi:preCollision ( event )
-		local plataforma = event.other
 		--print( "Pre colisao", event.other.collType )
 		--plataformas.collType = "passthru"
 	    --if plataformas.myName == "plataformasPares" or plataformas.myName == "plataformasImpares" then
@@ -331,7 +333,11 @@ function scene:createScene( event )
 	    event.other.bodyType = "kinematic"
 		if event.other.collType == "passthru" then
 	        event.contact.isEnabled = false
-			self.isSensor = true ; self.setAsSensor = true
+			self.isSensor = true 
+			self.isAwake = true
+			self.isFixedRotation = true
+			self.linearDamping = 1
+			--self.setAsSensor = true
 			event.other.bodyType = "kinematic"
 			print ("cheguei aqui")
 			--plataformas.contact.isEnabled = false
