@@ -19,8 +19,15 @@ function scene:createScene( event )
 	menu_song = audio.loadStream( "8bit Dungeon Boss.mp3" )
 
 	audio.play(menu_song)
+
+		--FONTE 
+	if "Win" == system.getInfo( "platformName" ) then 
+		fonte = "Nosifer-Regular" 
+	elseif "Android" == system.getInfo( "platformName" ) then 
+		fonte = "Nosifer-Regular" 
+	end
 	
-	local title = display.newText( "Zombie's Jump Credits", 0, 0, "Helvetica", 38 )
+	local title = display.newText( "Zombie's Jump Credits", 0, 0, fonte, 38 )
 	title.x = centerX
 	title.y = display.screenOriginY + 40
 	group:insert(title)
@@ -46,7 +53,7 @@ function scene:createScene( event )
 	backBtn:addEventListener("tap", buttonHit)
 	group:insert(backBtn)
 
-	local meunome = display.newText(  "Adolfho Athyla", 0, 0, "Helvetica", 25 )
+	local meunome = display.newText(  "Adolfho Athyla", 0, 0, fonte, 25 )
 	meunome.x = centerX
 	meunome.y = centerY
 	meunome.destination = "menu" 

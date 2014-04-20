@@ -23,8 +23,16 @@ function scene:createScene( event )
 
 	audio.play( menu_song )
 
+
+	--FONTE 
+	if "Win" == system.getInfo( "platformName" ) then 
+		fonte = "Nosifer-Regular" 
+	elseif "Android" == system.getInfo( "platformName" ) then 
+		fonte = "Nosifer-Regular" 
+	end
+
 	
-	local title = display.newText( "Zombie's Jump", 0, 0, "Helvetica", 38 )
+	local title = display.newText( "Zombie's Jump", 0, 0, fonte, 38 )
 	title.x = centerX
 	title.y = display.screenOriginY + 40
 	title:setFillColor( 255, 255, 255 )
@@ -77,6 +85,8 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
+
+	storyboard.purgeScene("play")
 
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 

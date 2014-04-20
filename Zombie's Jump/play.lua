@@ -12,11 +12,11 @@ local widget = require( "widget" )
 
 function display:tap (event)
 	if (event.x < display.contentWidth/2) then
-		transition.to( zumbi, {time=450, x = zumbi.x-155, y = zumbi.y-30} ) 
+		transition.to( zumbi, {time=350, x = zumbi.x-155, y = zumbi.y-10} ) 
 		--zumbi:applyLinearImpulse(  50, 1, zumbi.x-150, zumbi.y-230 )
 		audio.play ( somPulo )
 	else 
-		transition.to( zumbi, {time=450, x = zumbi.x+155, y = zumbi.y -30} )
+		transition.to( zumbi, {time=350, x = zumbi.x+155, y = zumbi.y -10} )
 		audio.play ( somPulo )
 	end
 end
@@ -51,64 +51,45 @@ function onCollisionCerebro(event)
 end 
 
 function mostraScore( )
-	messageScore.text = "Scores ".. score
+	messageScore.text = score
 end
 
-function onCollisionGameOver(event)
-	if( event.object1.myName == "zumbi" and event.object2.myName == "chao" or
-		event.object1.myName == "chao" and event.object2.myName == "zumbi" or
-		event.object1.myName == "zumbi" and event.object2.myName == "paredeDireita" or
-		event.object1.myName == "paredeDireita" and event.object2.myName == "zumbi" or
-		event.object1.myName == "zumbi" and event.object2.myName == "paredeEsquerda" or
-		event.object1.myName == "paredeEsquerda" and event.object2.myName == "zumbi" or
-		life.x <= -(display.contentWidth)) then
-		local gameOver = display.newImageRect( "gameover.png", 500, 150 )
-		gameOver.x = display.contentWidth/2
-		gameOver.y = display.contentHeight/2
-		score = 0
-		audio.pause(main_song)
-		transition.pause()
-		--timer.cancel(event.source)
-	end
-end
 
-function andamentoLife()
-	life.x = life.x -3 
-	--transition.to( life, {time=100, x = life.x - 3} )
-	if life.x < -(display.contentWidth*0.8) then
-		life:setFillColor(255, 0, 0)
-	end
-	print( life.x )
-end
 
 function sorteiaCerebro()
-	sorteioCerebro = math.random( 1, 10 )
+	sorteioCerebro = math.random( 1, 15 )
 
 	if (sorteioCerebro==1) then
 		cerebro = display.newImageRect( "cerebro.png", 60, 60 )
 		cerebro.myName = "cerebro"
 		cerebro.valor = 1
 		fisica.addBody(cerebro, {bounce = 0.0, friction=1, density=1})
+		local altura = 0;
 		local sorteioPosicaoCerebro = math.random( 1, 5 )
 		if (sorteioPosicaoCerebro==1) then
 			cerebro.x = display.contentWidth/2-320
-			cerebro.y = math.random( 0, display.contentHeight )
+			altura = math.random( display.contentHeight*2, display.contentHeight*5 )
+			cerebro.y = -(altura)
 			cerebro.myName = "cerebro"
 		elseif (sorteioPosicaoCerebro==2) then
 			cerebro.x = display.contentWidth/2
-			cerebro.y = math.random( 0, display.contentHeight )
+			altura = math.random( display.contentHeight*2, display.contentHeight*5 )
+			cerebro.y = -(altura)
 			cerebro.myName = "cerebro"
 		elseif (sorteioPosicaoCerebro==3) then
 			cerebro.x = display.contentWidth/2+320
-			cerebro.y = math.random( 0, display.contentHeight )
+			altura = math.random( display.contentHeight*2, display.contentHeight*5 )
+			cerebro.y = -(altura)
 			cerebro.myName = "cerebro"
 		elseif (sorteioPosicaoCerebro==4) then
 			cerebro.x = display.contentWidth/2-160
-			cerebro.y = math.random( 0, display.contentHeight )
+			altura = math.random( display.contentHeight*2, display.contentHeight*5 )
+			cerebro.y = -(altura)
 			cerebro.myName = "cerebro"
 		elseif (sorteioPosicaoCerebro==5) then
 			cerebro.x = display.contentWidth/2+160
-			cerebro.y = math.random( 0, display.contentHeight )
+			altura = math.random( display.contentHeight*2, display.contentHeight*5 )
+			cerebro.y = -(altura)
 			cerebro.myName = "cerebro"
 		end
 	end
@@ -133,23 +114,23 @@ function onCollisionCerebroComCerebro(event)
 	end
 end
 
-cont = 0
 
-function youReady(event)
-	if event.name == "tap" then
-		cont = cont + 1
-		if cont == 1 then
-			print ("YOU READY!! true")
-			ready:removeSelf( )
-			transition.resume()
-		end
+
+
+
+function andamentoLife()
+	life.x = life.x -3 
+	--transition.to( life, {time=100, x = life.x - 3} )
+	if life.x < -(display.contentWidth*0.8) then
+		life:setFillColor(255, 0, 0)
 	end
+	print( life.x )
 end
 
 function buttonHit(event)
 	storyboard.gotoScene ( event.target.destination, {effect = "slideUp"} )	
 	print( event.target.destination)
-		return true
+	return true
 end
 
 
@@ -157,7 +138,15 @@ end
 function scene:createScene( event )
 	local group = self.view
 
-	local background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
+		--FONTE 
+	if "Win" == system.getInfo( "platformName" ) then 
+		fonte = "Nosifer-Regular" 
+	elseif "Android" == system.getInfo( "platformName" ) then 
+		fonte = "Nosifer-Regular" 
+	end
+	print("Estou no create scene!")
+
+	background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
 	background.x = display.contentWidth*0.5
 	background.y = display.contentHeight*0.5
 	group:insert( background )
@@ -190,14 +179,14 @@ function scene:createScene( event )
 	fisica.addBody(parededireita, "kinematic", {isSensor=true})
 
 	score = 0
+	cont = 0
 
-	messageScore = display.newText( "Score: ".. score, 250, 50, native.systemFont, 50 )
-	messageScore.x = (display.contentWidth+150)-display.contentWidth
+	messageScore = display.newText( score, 250, 50, fonte, 50 )
+	messageScore.x = display.contentWidth*0.5 --(display.contentWidth+150)-display.contentWidth
 	messageScore.y = (display.contentHeight+80)-display.contentHeight
 
 	group:insert( messageScore )
 
-	audio.play(main_song)
 
 	ready = display.newImageRect( "ready.png", 500, 300 )
 	ready.x = display.contentWidth*0.5
@@ -217,11 +206,14 @@ function scene:createScene( event )
 	tuplaImpar[1].collType = "passthru"
 
 	if sorteio==1 then
-		transition.to(tuplaImpar[1].plataforma1.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma1.plataformaValendo.y + 2800000})
+		transition.to(tuplaImpar[1].plataforma1.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma1.plataformaValendo.y + 3000000})
+		group:insert(tuplaImpar[1].plataforma1.plataformaValendo)
 	elseif sorteio==2 then
-		transition.to(tuplaImpar[1].plataforma2.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma2.plataformaValendo.y + 2800000})
+		transition.to(tuplaImpar[1].plataforma2.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma2.plataformaValendo.y + 3000000})
+		group:insert(tuplaImpar[1].plataforma2.plataformaValendo)
 	elseif sorteio==3 then
-		transition.to(tuplaImpar[1].plataforma3.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma3.plataformaValendo.y + 2800000})
+		transition.to(tuplaImpar[1].plataforma3.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma3.plataformaValendo.y + 3000000})
+		group:insert(tuplaImpar[1].plataforma3.plataformaValendo)
 	end
 
 	alt = 0
@@ -233,9 +225,11 @@ function scene:createScene( event )
 	tuplaPar[1].collType = "passthru"
 
 	if pltPar[1]==1 then
-		transition.to(tuplaPar[1].plataforma1.plataformaValendo,{time=28000000,y = tuplaPar[1].plataforma1.plataformaValendo.y + 2800000})
+		transition.to(tuplaPar[1].plataforma1.plataformaValendo,{time=28000000,y = tuplaPar[1].plataforma1.plataformaValendo.y + 3000000})
+		group:insert(tuplaPar[1].plataforma1.plataformaValendo)
 	elseif pltPar[1]==2 then
-		transition.to(tuplaPar[1].plataforma2.plataformaValendo,{time=28000000,y = tuplaPar[1].plataforma2.plataformaValendo.y + 2800000})
+		transition.to(tuplaPar[1].plataforma2.plataformaValendo,{time=28000000,y = tuplaPar[1].plataforma2.plataformaValendo.y + 3000000})
+		group:insert(tuplaPar[1].plataforma2.plataformaValendo)
 	end
 
 	for i=2, 100 do
@@ -246,11 +240,14 @@ function scene:createScene( event )
 		pltImpar[i] = tuplaImpar[i]:sorteiaDois(pltPar[i-1], alt)
 		
 		if pltImpar[i]==1 then
-			transition.to(tuplaImpar[i].plataforma1.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma1.plataformaValendo.y + 2800000})
+			transition.to(tuplaImpar[i].plataforma1.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma1.plataformaValendo.y + 3000000})
+			group:insert(tuplaImpar[i].plataforma1.plataformaValendo)
 		elseif pltImpar[i]==2 then
-			transition.to(tuplaImpar[i].plataforma2.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma2.plataformaValendo.y + 2800000})
+			transition.to(tuplaImpar[i].plataforma2.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma2.plataformaValendo.y + 3000000})
+			group:insert(tuplaImpar[i].plataforma2.plataformaValendo)
 		elseif pltImpar[i]==3 then
-			transition.to(tuplaImpar[i].plataforma3.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma3.plataformaValendo.y + 2800000})
+			transition.to(tuplaImpar[i].plataforma3.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma3.plataformaValendo.y + 3000000})
+			group:insert(tuplaImpar[i].plataforma3.plataformaValendo)
 		end
 
 
@@ -258,9 +255,11 @@ function scene:createScene( event )
 		pltPar[i] = tuplaPar[i]:proximoDois(pltImpar[i], alt)
 		
 		if pltPar[i]==1 then
-			transition.to(tuplaPar[i].plataforma1.plataformaValendo,{time=28000000,y = tuplaPar[i].plataforma1.plataformaValendo.y + 2800000})
+			transition.to(tuplaPar[i].plataforma1.plataformaValendo,{time=28000000,y = tuplaPar[i].plataforma1.plataformaValendo.y + 3000000})
+			group:insert(tuplaPar[i].plataforma1.plataformaValendo)
 		elseif pltPar[i]==2 then
-			transition.to(tuplaPar[i].plataforma2.plataformaValendo,{time=28000000,y = tuplaPar[i].plataforma2.plataformaValendo.y + 2800000})
+			transition.to(tuplaPar[i].plataforma2.plataformaValendo,{time=28000000,y = tuplaPar[i].plataforma2.plataformaValendo.y + 3000000})
+			group:insert(tuplaPar[i].plataforma2.plataformaValendo)
 		end
 
 		if cont == 0 then
@@ -272,9 +271,6 @@ function scene:createScene( event )
 		
 		tuplaImpar[i].collType = "passthru"
 		tuplaPar[i].collType = "passthru"
-		
-		print (tuplaPar[i].myName)
-		print (tuplaImpar[i].myName)
 
 	end
 
@@ -299,37 +295,45 @@ function scene:createScene( event )
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
 
-	function chao:collision( event )
-		if ( event.phase == "began" ) then
-			event.other:removeSelf()
-			print ("cheguei na remocao dos objetos no chao")
+end
+
+
+
+
+-- Called immediately after scene has moved onscreen:
+function scene:enterScene( event )
+	local group = self.view
+
+	audio.play(main_song)
+
+	function youReady(event)
+		if event.name == "tap" then
+			cont = cont + 1
+			if cont == 1 then
+				print ("YOU READY!! true")
+				ready:removeSelf( )
+				transition.resume()
+			end
 		end
-		
 	end
 
-	function zumbi:collision( event )
-		--print ("Colisao", plataformas.collType)
-		--plataformas.collType = "fixe"
-		if ( event.phase == "began" ) then
-			event.contact.isEnabled = true
-			self.isSensor = false 
-			self.isAwake = true
-			self.linearDamping = 1
-			--self.setAsSensor = false
-			--print ("alguma coisa")
-			if event.other.myName ~= "cerebro" and event.other.myName ~= "life"  then
-				score = score + 1
-			end
-			
+	function onCollisionGameOver(event)
+		if( event.object1.myName == "zumbi" and event.object2.myName == "chao" or
+			event.object1.myName == "chao" and event.object2.myName == "zumbi" or
+			event.object1.myName == "zumbi" and event.object2.myName == "paredeDireita" or
+			event.object1.myName == "paredeDireita" and event.object2.myName == "zumbi" or
+			event.object1.myName == "zumbi" and event.object2.myName == "paredeEsquerda" or
+			event.object1.myName == "paredeEsquerda" and event.object2.myName == "zumbi" or
+			life.x <= -(display.contentWidth)) then
+				storyboard.gotoScene ( "gameOver", {effect = "slideUp"} )	
+			--timer.cancel(event.source)
 		end
-		
 	end
 
 	function zumbi:preCollision ( event )
 		--print( "Pre colisao", event.other.collType )
 		--plataformas.collType = "passthru"
 	    --if plataformas.myName == "plataformasPares" or plataformas.myName == "plataformasImpares" then
-	    print ("cheguei antes")
 	    event.other.bodyType = "kinematic"
 		if event.other.collType == "passthru" then
 	        event.contact.isEnabled = false
@@ -339,7 +343,6 @@ function scene:createScene( event )
 			self.linearDamping = 1
 			--self.setAsSensor = true
 			event.other.bodyType = "kinematic"
-			print ("cheguei aqui")
 			--plataformas.contact.isEnabled = false
 			--plataformas.bodyType = "kinematic"
 			--plataformas.isSensor = true
@@ -348,15 +351,41 @@ function scene:createScene( event )
 	    end
 	end
 
-end
+	function zumbi:collision( event )
+		--print ("Colisao", plataformas.collType)
+		--plataformas.collType = "fixe"
+		if ( event.phase == "began" ) then
 
+			--self.setAsSensor = false
+			--print ("alguma coisa")
+			if event.other.myName ~= "cerebro" and event.other.myName ~= "life" and event.other.myName ~= "chao" 
+				and event.other.myName ~= "paredeEsquerda" and event.other.myName ~= "paredeDireita" then
+				score = score + 1
+				event.contact.isEnabled = true
+				self.isSensor = false 
+				self.isAwake = true
+				self.linearDamping = 1
+			end
+			
+		end
+		
+	end
 
--- Called immediately after scene has moved onscreen:
-function scene:enterScene( event )
-	local group = self.view
+	function chao:collision( event )
+		if ( event.phase == "began" ) then
+			if event.other.myName ~= "zumbi" then
+				event.other:removeSelf()
+				print ("cheguei na remocao dos objetos no chao")
+			end
+		end
+		
+	end
 
 	somPulo = audio.loadSound("boing_wav.wav")
 	somComerCerebro = audio.loadSound("squish_wav.wav")
+	main_song = audio.loadStream( "main_music_zj.mp3" )
+
+	print ("Estou no enter scene")
 	
 
 	Runtime:addEventListener( "tap", display )
@@ -368,8 +397,9 @@ function scene:enterScene( event )
 	zumbi:addEventListener( "collision" )
 	chao:addEventListener( "collision" )
 	Runtime:addEventListener( "tap", youReady )
-	timer.performWithDelay(500, sorteiaCerebro,0)
-	timer.performWithDelay(100, andamentoLife,0)
+	timerCerebros = timer.performWithDelay(500, sorteiaCerebro,0)
+	timerLife = timer.performWithDelay(100, andamentoLife,0)
+
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 
 end
@@ -382,7 +412,9 @@ function scene:exitScene( event )
 	-- INSERT code here (e.g. stop timers, remove listeners, unload sounds, etc.)
 	-- Remove listeners attached to the Runtime, timers, transitions, audio tracks
 
-	audio.pause(main_song)
+	print("Estou no exit scene")
+
+	
 	Runtime:removeEventListener( "tap", display )
 	Runtime:removeEventListener( "collision", onCollisionCerebro )
 	Runtime:removeEventListener( "collision", onCollisionCerebroComCerebro )
@@ -392,6 +424,9 @@ function scene:exitScene( event )
 	zumbi:removeEventListener( "collision" )
 	chao:removeEventListener( "collision" )
 
+	timer.cancel( timerCerebros )
+	timer.cancel( timerLife )
+
 end
 
 
@@ -399,6 +434,7 @@ end
 function scene:destroyScene( event )
 	local group = self.view
 
+	--audio.pause(main_song)
 	-- INSERT code here (e.g. remove listeners, widgets, save state, etc.)
 	-- Remove listeners attached to the Runtime, timers, transitions, audio tracks
 
