@@ -8,7 +8,7 @@ local scene = storyboard.newScene()
 local widget = require( "widget" )
 
 local function buttonHit(event)
-	storyboard.gotoScene (  event.target.destination, {effect = "slideDown"} )
+	storyboard.gotoScene (  event.target.destination, {effect = event.target.effect} )
 	return true
 end
 
@@ -55,6 +55,7 @@ function scene:createScene( event )
 		y = centerY,
 	}
 	playBtn.destination = "play"
+	playBtn.effect = "crossFade"
 	playBtn:addEventListener("tap", buttonHit)
 	group:insert(playBtn)
 
@@ -76,6 +77,7 @@ function scene:createScene( event )
 		y = centerY+80,
 	}
 	creditsBtn.destination = "gamecredits"
+	creditsBtn.effect = "slideUp"
 	creditsBtn:addEventListener("tap", buttonHit)
 	group:insert(creditsBtn)
 	

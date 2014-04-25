@@ -37,14 +37,6 @@ function PlataformasTwo:new()
 		end
 	end
 
---	function plataformas_two:tempinhoPlat(escolhido)
---		if escolhido==1 then
---			self.plataforma1:movimentar()
---		elseif escolhido==2 then
---			self.plataforma2:movimentar()
---		end
---	end
-
 	--passar altura como parametro
 	function plataformas_two:proximoDois(escolhido, altura)
 		if(escolhido==1) then

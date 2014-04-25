@@ -49,11 +49,6 @@ function Plataforma:new( )
 		self.plataformaValendo.y = (display.contentHeight-80)-altura
 	end
 
-	function plataforma:movimentar()
-		--self.plataformaValendo.y = self.plataformaValendo.y + 10
-		--timer.performWithDelay(100, movimentar,0)
-		--transition.to(self.plataformaValendo,{time = 3000,y = display.contentHeight + 100})
-	end
 
 	return plataforma
 end

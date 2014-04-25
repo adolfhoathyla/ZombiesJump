@@ -5,6 +5,8 @@ local fisica = require( "physics" )
 fisica.start()
 fisica.setGravity(0, 100)
 
+--fisica.setDrawMode("hybrid")
+
 require( "PlataformasThree" )
 require("PlataformasTwo")
 
@@ -124,7 +126,7 @@ function andamentoLife()
 end
 
 function buttonHit(event)
-	storyboard.gotoScene ( event.target.destination, {effect = "slideUp"} )	
+	storyboard.gotoScene ( event.target.destination, {effect = "flip"} )	
 	print( event.target.destination)
 	return true
 end
@@ -156,8 +158,9 @@ function scene:createScene( event )
 
 	zumbi = display.newImageRect( "zumbi.png", 80, 80 )
 	zumbi.myName = "zumbi"
-	--zumbi.alpha = 0.5
+	zumbi.alpha = 0.5
 	zumbi.isFixedRotation = true
+	zumbi.rotation = 10
 	group:insert( zumbi )
 
 	chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 1)
@@ -180,7 +183,7 @@ function scene:createScene( event )
 	cont = 0
 
 	messageScore = display.newText( score, 250, 50, fonte, 50 )
-	messageScore.x = display.contentWidth*0.5 --(display.contentWidth+150)-display.contentWidth
+	messageScore.x = display.contentWidth*0.5 
 	messageScore.y = (display.contentHeight+80)-display.contentHeight
 
 	group:insert( messageScore )
@@ -200,17 +203,21 @@ function scene:createScene( event )
 
 	tuplaImpar[1] = PlataformasThree:new()
 	pltImpar[1] = tuplaImpar[1]:sorteia(sorteio)
-	tuplaImpar[1].myName = "plataformasImpares"
-	tuplaImpar[1].collType = "passthru"
 
 	if sorteio==1 then
 		transition.to(tuplaImpar[1].plataforma1.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma1.plataformaValendo.y + 3000000})
+		tuplaImpar[1].plataforma1.plataformaValendo.myName = "plataformasImpares"
+		tuplaImpar[1].plataforma1.plataformaValendo.collType = "fixe"
 		group:insert(tuplaImpar[1].plataforma1.plataformaValendo)
 	elseif sorteio==2 then
 		transition.to(tuplaImpar[1].plataforma2.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma2.plataformaValendo.y + 3000000})
+		tuplaImpar[1].plataforma2.plataformaValendo.myName = "plataformasImpares"
+		tuplaImpar[1].plataforma2.plataformaValendo.collType = "fixe"
 		group:insert(tuplaImpar[1].plataforma2.plataformaValendo)
 	elseif sorteio==3 then
 		transition.to(tuplaImpar[1].plataforma3.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma3.plataformaValendo.y + 3000000})
+		tuplaImpar[1].plataforma3.plataformaValendo.myName = "plataformasImpares"
+		tuplaImpar[1].plataforma3.plataformaValendo.collType = "fixe"
 		group:insert(tuplaImpar[1].plataforma3.plataformaValendo)
 	end
 
@@ -219,14 +226,15 @@ function scene:createScene( event )
 	tuplaPar[1] = PlataformasTwo:new()
 	pltPar[1] = tuplaPar[1]:proximoDois(sorteio, alt)
 
-	tuplaPar[1].myName = "PlataformasPares"
-	tuplaPar[1].collType = "passthru"
-
 	if pltPar[1]==1 then
 		transition.to(tuplaPar[1].plataforma1.plataformaValendo,{time=28000000,y = tuplaPar[1].plataforma1.plataformaValendo.y + 3000000})
+		tuplaPar[1].plataforma1.plataformaValendo.myName = "plataformasPares"
+		tuplaPar[1].plataforma1.plataformaValendo.collType = "passthru"
 		group:insert(tuplaPar[1].plataforma1.plataformaValendo)
 	elseif pltPar[1]==2 then
 		transition.to(tuplaPar[1].plataforma2.plataformaValendo,{time=28000000,y = tuplaPar[1].plataforma2.plataformaValendo.y + 3000000})
+		tuplaPar[1].plataforma2.plataformaValendo.myName = "plataformasPares"
+		tuplaPar[1].plataforma2.plataformaValendo.collType = "passthru"
 		group:insert(tuplaPar[1].plataforma2.plataformaValendo)
 	end
 
@@ -239,12 +247,18 @@ function scene:createScene( event )
 		
 		if pltImpar[i]==1 then
 			transition.to(tuplaImpar[i].plataforma1.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma1.plataformaValendo.y + 3000000})
+			tuplaImpar[i].plataforma1.plataformaValendo.myName = "plataformasImpares"
+			tuplaImpar[i].plataforma1.plataformaValendo.collType = "passthru"
 			group:insert(tuplaImpar[i].plataforma1.plataformaValendo)
 		elseif pltImpar[i]==2 then
 			transition.to(tuplaImpar[i].plataforma2.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma2.plataformaValendo.y + 3000000})
+			tuplaImpar[i].plataforma2.plataformaValendo.myName = "plataformasImpares"
+			tuplaImpar[i].plataforma2.plataformaValendo.collType = "passthru"
 			group:insert(tuplaImpar[i].plataforma2.plataformaValendo)
 		elseif pltImpar[i]==3 then
 			transition.to(tuplaImpar[i].plataforma3.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma3.plataformaValendo.y + 3000000})
+			tuplaImpar[i].plataforma3.plataformaValendo.myName = "plataformasImpares"
+			tuplaImpar[i].plataforma3.plataformaValendo.collType = "passthru"
 			group:insert(tuplaImpar[i].plataforma3.plataformaValendo)
 		end
 
@@ -254,21 +268,19 @@ function scene:createScene( event )
 		
 		if pltPar[i]==1 then
 			transition.to(tuplaPar[i].plataforma1.plataformaValendo,{time=28000000,y = tuplaPar[i].plataforma1.plataformaValendo.y + 3000000})
+			tuplaPar[i].plataforma1.plataformaValendo.myName = "plataformasPares"
+			tuplaPar[i].plataforma1.plataformaValendo.collType = "passthru"
 			group:insert(tuplaPar[i].plataforma1.plataformaValendo)
 		elseif pltPar[i]==2 then
 			transition.to(tuplaPar[i].plataforma2.plataformaValendo,{time=28000000,y = tuplaPar[i].plataforma2.plataformaValendo.y + 3000000})
+			tuplaPar[i].plataforma2.plataformaValendo.myName = "plataformasPares"
+			tuplaPar[i].plataforma2.plataformaValendo.collType = "passthru"
 			group:insert(tuplaPar[i].plataforma2.plataformaValendo)
 		end
 
 		if cont == 0 then
 			transition.pause()
 		end
-
-		tuplaPar[i].myName = "plataformasPares"
-		tuplaImpar[i].myName = "plataformasImpares"
-		
-		tuplaImpar[i].collType = "passthru"
-		tuplaPar[i].collType = "passthru"
 
 	end
 
@@ -287,7 +299,7 @@ function scene:createScene( event )
 		
 	end
 
-	fisica.addBody(zumbi, "dynamic", {bounce = 0.1, friction=1, density=1})
+	fisica.addBody(zumbi, "dynamic", {bounce = 0.0, friction=1, density=1})
 
 
 	-- CREATE display objects and add them to 'group' here.
@@ -323,7 +335,7 @@ function scene:enterScene( event )
 			event.object1.myName == "zumbi" and event.object2.myName == "paredeEsquerda" or
 			event.object1.myName == "paredeEsquerda" and event.object2.myName == "zumbi" or
 			life.x <= -(display.contentWidth)) then
-				storyboard.gotoScene ( "gameOver", {effect = "slideUp"} )	
+				storyboard.gotoScene ( "gameOver", {effect = "flip"} )	
 			--timer.cancel(event.source)
 		end
 	end
@@ -331,7 +343,7 @@ function scene:enterScene( event )
 	verificadorScore = 0
 
 	function zumbi:preCollision ( event )
-		--print( "Pre colisao", event.other.collType )
+		print( "Pre colisao", event.other.collType )
 		--plataformas.collType = "passthru"
 	    --if plataformas.myName == "plataformasPares" or plataformas.myName == "plataformasImpares" then
 	    event.other.bodyType = "kinematic"
@@ -340,7 +352,7 @@ function scene:enterScene( event )
 	    	verificadorScore = 1
 	    end
 		if event.other.collType == "passthru" then
-
+			print ("TOOOO AQUIIIIIIII")
 	        event.contact.isEnabled = false
 			self.isSensor = true 
 			self.isAwake = true
@@ -355,16 +367,24 @@ function scene:enterScene( event )
 	        
 	    end
 	end
+	
+	function ficaDePeInocente( event )
+		if zumbi.rotation ~= 0 then
+			print ("ROTATION: ", zumbi.rotation)
+			zumbi.rotation = 0
+		end
+	end
 
 	function zumbi:collision( event )
 		--print ("Colisao", plataformas.collType)
 		--plataformas.collType = "fixe"
 		if ( event.phase == "began" ) then
-
+			
 			--self.setAsSensor = false
 			--print ("alguma coisa")
-			if event.other.myName ~= "cerebro" and event.other.myName ~= "life" and event.other.myName ~= "chao" 
-				and event.other.myName ~= "paredeEsquerda" and event.other.myName ~= "paredeDireita"  then
+			print ("Colision ", event.other.collType)
+			if event.other.myName == "plataformasPares" or event.other.myName == "plataformasImpares" then
+				event.other.collType = "fixe"
 				if verificadorScore == 1 then
 					score = score + 1
 					verificadorScore = 0
@@ -373,6 +393,8 @@ function scene:enterScene( event )
 				self.isSensor = false 
 				self.isAwake = true
 				self.linearDamping = 1
+				
+				print ("OBJETO COLIDINDO COM O WALTER", event.other.myName)
 				
 				verificadorScore = 1
 
@@ -404,8 +426,10 @@ function scene:enterScene( event )
 	Runtime:addEventListener("collision", onCollisionCerebroComCerebro)
 	Runtime:addEventListener("collision", onCollisionGameOver)
 	Runtime:addEventListener("enterFrame", mostraScore)
+	Runtime:addEventListener("enterFrame", ficaDePeInocente)
 	zumbi:addEventListener( "preCollision" )
 	zumbi:addEventListener( "collision" )
+	
 	chao:addEventListener( "collision" )
 	Runtime:addEventListener( "tap", youReady )
 	timerCerebros = timer.performWithDelay(500, sorteiaCerebro,0)
@@ -434,7 +458,7 @@ function scene:exitScene( event )
 	zumbi:removeEventListener( "preCollision" )
 	zumbi:removeEventListener( "collision" )
 	chao:removeEventListener( "collision" )
-
+	
 	timer.cancel( timerCerebros )
 	timer.cancel( timerLife )
 

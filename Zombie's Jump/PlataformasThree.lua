@@ -32,15 +32,6 @@ function PlataformasThree:new()
 		return escolhido
 	end
 
---	function plataformas_three:tempinhoPlat(escolhido)
---		if escolhido==1 then
---			self.plataforma1:movimentar()
---		elseif escolhido==2 then
---			self.plataforma2:movimentar()
---		elseif escolhido==3 then
---			self.plataforma3:movimentar()
---		end
---	end
 
 	function plataformas_three:sorteiaDois(escolhido, altura)
 		
