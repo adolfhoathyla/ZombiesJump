@@ -114,10 +114,6 @@ function onCollisionCerebroComCerebro(event)
 	end
 end
 
-
-
-
-
 function andamentoLife()
 	life.x = life.x -3 
 	--transition.to( life, {time=100, x = life.x - 3} )
@@ -139,12 +135,14 @@ function scene:createScene( event )
 	local group = self.view
 
 		--FONTE 
-	if "Win" == system.getInfo( "platformName" ) then 
-		fonte = "Nosifer-Regular" 
+	if "Windows" == system.getInfo( "platformName" ) then 
+		fonte = "Nosifer Regular" 
 	elseif "Android" == system.getInfo( "platformName" ) then 
 		fonte = "Nosifer-Regular" 
 	end
 	print("Estou no create scene!")
+
+	main_song = audio.loadStream( "main_music_zj.mp3" )
 
 	background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
 	background.x = display.contentWidth*0.5
@@ -188,7 +186,7 @@ function scene:createScene( event )
 	group:insert( messageScore )
 
 
-	ready = display.newImageRect( "ready.png", 500, 300 )
+	ready = display.newText( "Get ready!", 500, 300, fonte, 50 )
 	ready.x = display.contentWidth*0.5
 	ready.y = display.contentHeight*0.5
 	--group:insert( ready )
@@ -330,12 +328,19 @@ function scene:enterScene( event )
 		end
 	end
 
+	verificadorScore = 0
+
 	function zumbi:preCollision ( event )
 		--print( "Pre colisao", event.other.collType )
 		--plataformas.collType = "passthru"
 	    --if plataformas.myName == "plataformasPares" or plataformas.myName == "plataformasImpares" then
 	    event.other.bodyType = "kinematic"
+	    print ("TO CHEGANDO AQUI")
+	    if verificadorScore == 0 then
+	    	verificadorScore = 1
+	    end
 		if event.other.collType == "passthru" then
+
 	        event.contact.isEnabled = false
 			self.isSensor = true 
 			self.isAwake = true
@@ -359,12 +364,18 @@ function scene:enterScene( event )
 			--self.setAsSensor = false
 			--print ("alguma coisa")
 			if event.other.myName ~= "cerebro" and event.other.myName ~= "life" and event.other.myName ~= "chao" 
-				and event.other.myName ~= "paredeEsquerda" and event.other.myName ~= "paredeDireita" then
-				score = score + 1
+				and event.other.myName ~= "paredeEsquerda" and event.other.myName ~= "paredeDireita"  then
+				if verificadorScore == 1 then
+					score = score + 1
+					verificadorScore = 0
+				end
 				event.contact.isEnabled = true
 				self.isSensor = false 
 				self.isAwake = true
 				self.linearDamping = 1
+				
+				verificadorScore = 1
+
 			end
 			
 		end
@@ -383,7 +394,7 @@ function scene:enterScene( event )
 
 	somPulo = audio.loadSound("boing_wav.wav")
 	somComerCerebro = audio.loadSound("squish_wav.wav")
-	main_song = audio.loadStream( "main_music_zj.mp3" )
+	
 
 	print ("Estou no enter scene")
 	

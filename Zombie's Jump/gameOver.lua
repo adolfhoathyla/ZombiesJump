@@ -33,6 +33,8 @@ function scene:createScene( event )
 	audio.pause( somPulo )
 	audio.pause( somComerCerebro )
 
+
+
 	local restartBtn = widget.newButton
 	{
 		defaultFile = "buttonBlue.png",
@@ -66,6 +68,9 @@ function scene:enterScene( event )
     --print("Estou enterScene gameOver")
 	local group = self.view
 	storyboard.purgeScene("play")
+	som_game_over = audio.loadSound( "game_over.mp3" )
+
+	audio.play(som_game_over)
 	-- Inserir o código aqui (por exemplo, contadores de início, áudio carga, ouvintes de início, etc)
 end
 
@@ -81,10 +86,6 @@ function scene:destroyScene( event )
     --print("Estou destroyScene gameOver")
 	local group = self.view
 
-	if playBtn then
-		playBtn:removeSelf()	-- widgets de devem ser removidos manualmente
-		playBtn = nil
-	end
 end
 
 -----------------------------------------------------------------------------------------

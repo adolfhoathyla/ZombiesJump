@@ -16,7 +16,7 @@ function scene:createScene( event )
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
 
-	menu_song = audio.loadStream( "8bit Dungeon Boss.mp3" )
+	menu_song = audio.loadStream( "Move Forward.mp3" )
 
 	audio.play(menu_song)
 

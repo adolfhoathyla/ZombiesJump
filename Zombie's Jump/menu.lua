@@ -3,7 +3,7 @@ local scene = storyboard.newScene()
 
 -- local forward references should go here --
 
-main_song = audio.loadStream( "main_music_zj.mp3" )
+
 
 local widget = require( "widget" )
 
@@ -19,7 +19,7 @@ function scene:createScene( event )
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
 
-	menu_song = audio.loadStream( "8bit Dungeon Boss.mp3" )
+	menu_song = audio.loadStream( "Move Forward.mp3" )
 
 	audio.play( menu_song )
 
