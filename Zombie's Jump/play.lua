@@ -3,7 +3,7 @@ local scene = storyboard.newScene()
 
 local fisica = require( "physics" )
 fisica.start()
-fisica.setGravity(0, 100)
+fisica.setGravity(100, 10000)
 
 --fisica.setDrawMode("hybrid")
 
@@ -156,11 +156,10 @@ function scene:createScene( event )
 	life.MyName = "life"
 	group:insert( life )
 
-	zumbi = display.newImageRect( "zumbi.png", 80, 80 )
+	zumbi = display.newImageRect( arquivo_personagem, 80, 80 )
 	zumbi.myName = "zumbi"
-	zumbi.alpha = 0.5
+	zumbi.alpha = 0.7
 	zumbi.isFixedRotation = true
-	zumbi.rotation = 10
 	group:insert( zumbi )
 
 	chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 1)
@@ -340,17 +339,12 @@ function scene:enterScene( event )
 		end
 	end
 
-	verificadorScore = 0
-
 	function zumbi:preCollision ( event )
 		print( "Pre colisao", event.other.collType )
 		--plataformas.collType = "passthru"
 	    --if plataformas.myName == "plataformasPares" or plataformas.myName == "plataformasImpares" then
 	    event.other.bodyType = "kinematic"
 	    print ("TO CHEGANDO AQUI")
-	    if verificadorScore == 0 then
-	    	verificadorScore = 1
-	    end
 		if event.other.collType == "passthru" then
 			print ("TOOOO AQUIIIIIIII")
 	        event.contact.isEnabled = false
@@ -375,6 +369,8 @@ function scene:enterScene( event )
 		end
 	end
 
+	verificadorScore = 0
+
 	function zumbi:collision( event )
 		--print ("Colisao", plataformas.collType)
 		--plataformas.collType = "fixe"
@@ -382,22 +378,32 @@ function scene:enterScene( event )
 			
 			--self.setAsSensor = false
 			--print ("alguma coisa")
+			
 			print ("Colision ", event.other.collType)
+			
 			if event.other.myName == "plataformasPares" or event.other.myName == "plataformasImpares" then
 				event.other.collType = "fixe"
-				if verificadorScore == 1 then
-					score = score + 1
-					verificadorScore = 0
-				end
 				event.contact.isEnabled = true
 				self.isSensor = false 
 				self.isAwake = true
 				self.linearDamping = 1
+				if event.other.myName == "plataformasPares" and verificadorScore==0 then
+					score = score + 1
+					verificadorScore=1
 				
-				print ("OBJETO COLIDINDO COM O WALTER", event.other.myName)
-				
-				verificadorScore = 1
+					print ("OBJETO COLIDINDO COM O WALTER", event.other.myName)
 
+				elseif event.other.myName == "plataformasPares" and verificadorScore==1 then
+					verificadorScore=0
+			
+				end
+
+				if event.other.myName == "plataformasImpares" and verificadorScore==0 then
+					score = score + 1
+					verificadorScore=1
+				elseif event.other.myName == "plataformasImpares" and verificadorScore==1 then
+					verificadorScore=0
+				end
 			end
 			
 		end

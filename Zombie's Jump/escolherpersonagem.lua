@@ -8,6 +8,11 @@ local scene = storyboard.newScene()
 local widget = require( "widget" )
 
 local function buttonHit(event)
+	if event.target.verificador == 1 then
+		arquivo_personagem = "zumbi.png"
+	elseif event.target.verificador == 2 then
+		arquivo_personagem = "walter.png"
+	end
 	storyboard.gotoScene (  event.target.destination, {effect = event.target.effect} )
 	return true
 end
@@ -32,54 +37,56 @@ function scene:createScene( event )
 	end
 
 	
-	local title = display.newText( "Zombie's Jump", 0, 0, fonte, 38 )
+	local title = display.newText( "Choose your monster", 0, 0, fonte, 38 )
 	title.x = centerX
 	title.y = display.screenOriginY + 40
 	title:setFillColor( 255, 255, 255 )
 	group:insert(title)
 
-	local playBtn = widget.newButton
+	local walter = widget.newButton
 	{
-		defaultFile = "buttonRed.png",
-		overFile = "buttonRedOver.png",
-		label = "Start",
-		labelColor = 
-		{ 
-			default = { 51, 51, 51, 255 },
-		},
-		fontSize = 22,
+		defaultFile = "icone_zumbi.png",
+		--overFile = "buttonRedOver.png",
+		--label = "Start",
+		--labelColor = 
+		--{ 
+		--	default = { 51, 51, 51, 255 },
+		--},
+		--fontSize = 22,
 		emboss = true,
 		onPress = button1Press,
 		onRelease = button1Release,
-		x = centerX,
+		x = centerX-200,
 		y = centerY,
 	}
-	playBtn.destination = "escolherpersonagem"
-	playBtn.effect = "crossFade"
-	playBtn:addEventListener("tap", buttonHit)
-	group:insert(playBtn)
+	walter.destination = "play"
+	walter.effect = "crossFade"
+	walter.verificador = 1
+	walter:addEventListener("tap", buttonHit)
+	group:insert(walter)
 
 
-	local creditsBtn = widget.newButton
+	local outro = widget.newButton
 	{
-		defaultFile = "buttonBlue.png",
-		overFile = "buttonBlueOver.png",
-		label = "Credits",
-		labelColor = 
-		{ 
-			default = { 51, 51, 51, 255 },
-		},
-		fontSize = 22,
+		defaultFile = "walter.png",
+		--overFile = "buttonBlueOver.png",
+		--label = "Credits",
+		--labelColor = 
+		--{ 
+		--	default = { 51, 51, 51, 255 },
+		--},
+		--fontSize = 22,
 		emboss = true,
 		onPress = button1Press,
 		onRelease = button1Release,
-		x = centerX,
-		y = centerY+80,
+		x = centerX+200,
+		y = centerY,
 	}
-	creditsBtn.destination = "gamecredits"
-	creditsBtn.effect = "slideUp"
-	creditsBtn:addEventListener("tap", buttonHit)
-	group:insert(creditsBtn)
+	outro.destination = "play"
+	outro.effect = "slideUp"
+	outro.verificador = 2
+	outro:addEventListener("tap", buttonHit)
+	group:insert(outro)
 	
 end
 
