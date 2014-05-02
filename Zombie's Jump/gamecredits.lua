@@ -16,9 +16,14 @@ function scene:createScene( event )
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
 
-	menu_song = audio.loadStream( "Move Forward.mp3" )
+	--menu_song = audio.loadStream( "Move Forward.mp3" )
 
 	audio.play(menu_song)
+
+	local background = display.newImageRect( "credits.png", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY+250 )
+	background.x = display.contentWidth*0.5
+	background.y = display.contentHeight*0.5
+	group:insert( background )
 
 		--FONTE 
 	if "Win" == system.getInfo( "platformName" ) then 
@@ -26,11 +31,6 @@ function scene:createScene( event )
 	elseif "Android" == system.getInfo( "platformName" ) then 
 		fonte = "Nosifer-Regular" 
 	end
-	
-	local title = display.newText( "Zombie's Jump Credits", 0, 0, fonte, 38 )
-	title.x = centerX
-	title.y = display.screenOriginY + 40
-	group:insert(title)
 	
 
 	local backBtn = widget.newButton
@@ -52,13 +52,6 @@ function scene:createScene( event )
 	backBtn.destination = "menu"
 	backBtn:addEventListener("tap", buttonHit)
 	group:insert(backBtn)
-
-	local meunome = display.newText(  "Adolfho Athyla", 0, 0, fonte, 25 )
-	meunome.x = centerX
-	meunome.y = centerY
-	meunome.destination = "menu" 
-	meunome:addEventListener("tap", buttonHit)
-	group:insert(meunome)
 
 
 end

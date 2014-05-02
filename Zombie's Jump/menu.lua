@@ -16,6 +16,11 @@ end
 function scene:createScene( event )
 	local group = self.view
 
+	local background = display.newImageRect( "background_menu.png", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY+250 )
+	background.x = display.contentWidth*0.5
+	background.y = display.contentHeight*0.5
+	group:insert( background )
+
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
 
@@ -31,12 +36,6 @@ function scene:createScene( event )
 		fonte = "Nosifer-Regular" 
 	end
 
-	
-	local title = display.newText( "Zombie's Jump", 0, 0, fonte, 38 )
-	title.x = centerX
-	title.y = display.screenOriginY + 40
-	title:setFillColor( 255, 255, 255 )
-	group:insert(title)
 
 	local playBtn = widget.newButton
 	{
@@ -99,7 +98,7 @@ end
 function scene:exitScene( event )
 	local group = self.view
 
-	audio.pause(menu_song)
+	--audio.pause(menu_song)
 
 	-- INSERT code here (e.g. stop timers, remove listeners, unload sounds, etc.)
 	-- Remove listeners attached to the Runtime, timers, transitions, audio tracks

@@ -146,7 +146,7 @@ function scene:createScene( event )
 
 	main_song = audio.loadStream( "main_music_zj.mp3" )
 
-	background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
+	local background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
 	background.x = display.contentWidth*0.5
 	background.y = display.contentHeight*0.5
 	group:insert( background )
