@@ -13,13 +13,17 @@ require("PlataformasTwo")
 local widget = require( "widget" )
 
 function display:tap (event)
-	if (event.x < display.contentWidth/2) then
-		transition.to( zumbi, {time=350, x = zumbi.x-155, y = zumbi.y-10} ) 
-		--zumbi:applyLinearImpulse(  50, 1, zumbi.x-150, zumbi.y-230 )
-		audio.play ( somPulo )
-	else 
-		transition.to( zumbi, {time=350, x = zumbi.x+155, y = zumbi.y -10} )
-		audio.play ( somPulo )
+	if event.numTaps == 1 then
+		print ("NUM TAPS: ", event.numTaps)
+		
+		if (event.x < display.contentWidth/2) then
+			transition.to( zumbi, {time=350, x = zumbi.x-155, y = zumbi.y-10} ) 
+			--zumbi:applyLinearImpulse(  50, 1, zumbi.x-150, zumbi.y-230 )
+			audio.play ( somPulo )
+		else 
+			transition.to( zumbi, {time=350, x = zumbi.x+155, y = zumbi.y -10} )
+			audio.play ( somPulo )
+		end
 	end
 end
 
@@ -56,7 +60,22 @@ function mostraScore( )
 	messageScore.text = score
 end
 
+function ChuvaDeEstrelas()
+	alturaChuva = math.random( 0, display.contentHeight )
 
+	estrela = display.newCircle( 10, 10, 1 )
+	estrela.myName = "estrela"
+	estrela.x = math.random(0, display.contentWidth)
+	estrela.y = -(alturaChuva)
+	transition.to( estrela, {time= 50000, y = estrela.y+5000} )
+
+	--estrelaTwo = display.newCircle( 10, 10, 2 )
+	--estrelaTwo.myName = "estrela"
+	--estrela:setFillColor( 100, 100, 100 )
+	--estrelaTwo.x = math.random(0, display.contentWidth)
+	--estrelaTwo.y = -(alturaChuva)
+	--transition.to( estrelaTwo, {time= 25000, y = estrelaTwo.y+5000} )
+end
 
 function sorteiaCerebro()
 	sorteioCerebro = math.random( 1, 15 )
@@ -150,6 +169,37 @@ function scene:createScene( event )
 	background.x = display.contentWidth*0.5
 	background.y = display.contentHeight*0.5
 	group:insert( background )
+
+	lua = display.newImageRect( "lua.png", 400, 400 )
+	lua.x = display.contentWidth-100
+	lua.y = -300
+	transition.to( lua, {time=1505000, y=lua.y+20000} )
+	group:insert(lua)
+
+
+	terra = display.newImageRect( "terra.png", 150, 150 )
+	terra.x = display.contentWidth-600
+	terra.y = -400
+	transition.to( terra, {time=2005000, y=terra.y+20000} )
+	group:insert(terra)
+
+	marte = display.newImageRect( "marte.png", 80, 80 )
+	marte.x = display.contentWidth-900
+	marte.y = -300
+	transition.to( marte, {time=550500, y=marte.y+20000} )
+	group:insert(marte)
+
+	venus = display.newImageRect( "venus.png", 120, 120 )
+	venus.x = display.contentWidth*0.5+100
+	venus.y = -450
+	transition.to( venus, {time=406000, y=venus.y+20000} )
+	group:insert(venus)
+
+	saturno = display.newImageRect( "saturno.png", 80, 80 )
+	saturno.x = display.contentWidth-900
+	saturno.y = -200
+	transition.to( saturno, {time=3005000, y=saturno.y+20000} )
+	group:insert(saturno)
 
 	life = display.newRect( 1, display.contentHeight, display.contentWidth*2, 80 )
 	life:setFillColor(0, 255, 255)
@@ -433,6 +483,7 @@ function scene:enterScene( event )
 	Runtime:addEventListener("collision", onCollisionGameOver)
 	Runtime:addEventListener("enterFrame", mostraScore)
 	Runtime:addEventListener("enterFrame", ficaDePeInocente)
+	Runtime:addEventListener("enterFrame", ChuvaDeEstrelas)
 	zumbi:addEventListener( "preCollision" )
 	zumbi:addEventListener( "collision" )
 	
