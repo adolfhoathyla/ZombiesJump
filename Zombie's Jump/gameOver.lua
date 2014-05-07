@@ -51,7 +51,7 @@ function scene:createScene( event )
 		x = centerX,
 		y = centerY,
 	}
-	restartBtn.destination = "play"
+	restartBtn.destination = "escolherpersonagem"
 	restartBtn:addEventListener("tap", buttonHit)
 	--group:insert(playBtn)
 	restartBtn.x = display.contentWidth*0.5
@@ -68,6 +68,7 @@ function scene:enterScene( event )
     --print("Estou enterScene gameOver")
 	local group = self.view
 	storyboard.purgeScene("play")
+	storyboard.removeAll()
 	som_game_over = audio.loadSound( "game_over.mp3" )
 
 	audio.play(som_game_over)

@@ -60,61 +60,6 @@ function mostraScore( )
 	messageScore.text = score
 end
 
-function ChuvaDeEstrelas()
-	alturaChuva = math.random( 0, display.contentHeight )
-
-	estrela = display.newCircle( 10, 10, 1 )
-	estrela.myName = "estrela"
-	estrela.x = math.random(0, display.contentWidth)
-	estrela.y = -(alturaChuva)
-	transition.to( estrela, {time= 50000, y = estrela.y+5000} )
-
-	--estrelaTwo = display.newCircle( 10, 10, 2 )
-	--estrelaTwo.myName = "estrela"
-	--estrela:setFillColor( 100, 100, 100 )
-	--estrelaTwo.x = math.random(0, display.contentWidth)
-	--estrelaTwo.y = -(alturaChuva)
-	--transition.to( estrelaTwo, {time= 25000, y = estrelaTwo.y+5000} )
-end
-
-function sorteiaCerebro()
-	sorteioCerebro = math.random( 1, 15 )
-
-	if (sorteioCerebro==1) then
-		cerebro = display.newImageRect( "cerebro.png", 60, 60 )
-		cerebro.myName = "cerebro"
-		cerebro.valor = 1
-		fisica.addBody(cerebro, {bounce = 0.0, friction=1, density=1})
-		local altura = 0;
-		local sorteioPosicaoCerebro = math.random( 1, 5 )
-		if (sorteioPosicaoCerebro==1) then
-			cerebro.x = display.contentWidth/2-320
-			altura = math.random( display.contentHeight*2, display.contentHeight*5 )
-			cerebro.y = -(altura)
-			cerebro.myName = "cerebro"
-		elseif (sorteioPosicaoCerebro==2) then
-			cerebro.x = display.contentWidth/2
-			altura = math.random( display.contentHeight*2, display.contentHeight*5 )
-			cerebro.y = -(altura)
-			cerebro.myName = "cerebro"
-		elseif (sorteioPosicaoCerebro==3) then
-			cerebro.x = display.contentWidth/2+320
-			altura = math.random( display.contentHeight*2, display.contentHeight*5 )
-			cerebro.y = -(altura)
-			cerebro.myName = "cerebro"
-		elseif (sorteioPosicaoCerebro==4) then
-			cerebro.x = display.contentWidth/2-160
-			altura = math.random( display.contentHeight*2, display.contentHeight*5 )
-			cerebro.y = -(altura)
-			cerebro.myName = "cerebro"
-		elseif (sorteioPosicaoCerebro==5) then
-			cerebro.x = display.contentWidth/2+160
-			altura = math.random( display.contentHeight*2, display.contentHeight*5 )
-			cerebro.y = -(altura)
-			cerebro.myName = "cerebro"
-		end
-	end
-end
 
 function onCollisionCerebroComCerebro(event)
 	if( event.object1.myName == "cerebro" and event.object2.myName == "cerebro" ) then
@@ -165,10 +110,10 @@ function scene:createScene( event )
 
 	main_song = audio.loadStream( "main_music_zj.mp3" )
 
-	local background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
-	background.x = display.contentWidth*0.5
-	background.y = display.contentHeight*0.5
-	group:insert( background )
+	--local background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
+	--background.x = display.contentWidth*0.5
+	--background.y = display.contentHeight*0.5
+	--group:insert( background )
 
 	lua = display.newImageRect( "lua.png", 400, 400 )
 	lua.x = display.contentWidth-100
@@ -204,6 +149,7 @@ function scene:createScene( event )
 	life = display.newRect( 1, display.contentHeight, display.contentWidth*2, 80 )
 	life:setFillColor(0, 255, 255)
 	life.MyName = "life"
+	--transition.to( life, {time=20000, x=life.x-200} )
 	group:insert( life )
 
 	zumbi = display.newImageRect( arquivo_personagem, 80, 80 )
@@ -376,6 +322,65 @@ function scene:enterScene( event )
 		end
 	end
 
+	function ChuvaDeEstrelas()
+			alturaChuva = math.random( 0, display.contentHeight )
+
+			estrela = display.newCircle( 10, 10, 1 )
+			estrela.myName = "estrela"
+			estrela.x = math.random(0, display.contentWidth)
+			estrela.y = alturaChuva
+			group:insert(estrela)
+			transition.to( estrela, {time= 50000, y = estrela.y+5000} )
+
+			--estrelaTwo = display.newCircle( 10, 10, 2 )
+			--estrelaTwo.myName = "estrela"
+			--estrela:setFillColor( 100, 100, 100 )
+			--estrelaTwo.x = math.random(0, display.contentWidth)
+			--estrelaTwo.y = -(alturaChuva)
+			--transition.to( estrelaTwo, {time= 25000, y = estrelaTwo.y+5000} )
+
+	end
+
+	function sorteiaCerebro()
+		sorteioCerebro = math.random( 1, 13 )
+
+		if (sorteioCerebro==1) then
+			cerebro = display.newImageRect( "cerebro.png", 60, 60 )
+			cerebro.myName = "cerebro"
+			cerebro.valor = 1
+			group:insert(cerebro)
+			fisica.addBody(cerebro, {bounce = 0.0, friction=1, density=1})
+			local altura = 0;
+			local sorteioPosicaoCerebro = math.random( 1, 5 )
+			if (sorteioPosicaoCerebro==1) then
+				cerebro.x = display.contentWidth/2-320
+				altura = math.random( display.contentHeight*2, display.contentHeight*5 )
+				cerebro.y = -(altura)
+				cerebro.myName = "cerebro"
+			elseif (sorteioPosicaoCerebro==2) then
+				cerebro.x = display.contentWidth/2
+				altura = math.random( display.contentHeight*2, display.contentHeight*5 )
+				cerebro.y = -(altura)
+				cerebro.myName = "cerebro"
+			elseif (sorteioPosicaoCerebro==3) then
+				cerebro.x = display.contentWidth/2+320
+				altura = math.random( display.contentHeight*2, display.contentHeight*5 )
+				cerebro.y = -(altura)
+				cerebro.myName = "cerebro"
+			elseif (sorteioPosicaoCerebro==4) then
+				cerebro.x = display.contentWidth/2-160
+				altura = math.random( display.contentHeight*2, display.contentHeight*5 )
+				cerebro.y = -(altura)
+				cerebro.myName = "cerebro"
+			elseif (sorteioPosicaoCerebro==5) then
+				cerebro.x = display.contentWidth/2+160
+				altura = math.random( display.contentHeight*2, display.contentHeight*5 )
+				cerebro.y = -(altura)
+				cerebro.myName = "cerebro"
+			end
+		end
+	end
+
 	function onCollisionGameOver(event)
 		if( event.object1.myName == "zumbi" and event.object2.myName == "chao" or
 			event.object1.myName == "chao" and event.object2.myName == "zumbi" or
@@ -437,6 +442,7 @@ function scene:enterScene( event )
 				self.isSensor = false 
 				self.isAwake = true
 				self.linearDamping = 1
+				zumbi:applyLinearImpulse( 0, 1000, zumbi.x, zumbi.y+2000 )
 				if event.other.myName == "plataformasPares" and verificadorScore==0 then
 					score = score + 1
 					verificadorScore=1
@@ -512,13 +518,13 @@ function scene:exitScene( event )
 	Runtime:removeEventListener( "collision", onCollisionCerebroComCerebro )
 	Runtime:removeEventListener( "collision", onCollisionGameOver )
 	Runtime:removeEventListener( "enterFrame", mostraScore )
+	Runtime:removeEventListener("enterFrame", ChuvaDeEstrelas)
 	zumbi:removeEventListener( "preCollision" )
 	zumbi:removeEventListener( "collision" )
 	chao:removeEventListener( "collision" )
 	
 	timer.cancel( timerCerebros )
 	timer.cancel( timerLife )
-
 end
 
 
