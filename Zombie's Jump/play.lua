@@ -85,6 +85,8 @@ function andamentoLife()
 	--transition.to( life, {time=100, x = life.x - 3} )
 	if life.x < -(display.contentWidth*0.8) then
 		life:setFillColor(255, 0, 0)
+	else
+		life:setFillColor(0, 255, 255)
 	end
 	print( life.x )
 end
@@ -110,6 +112,18 @@ function scene:createScene( event )
 
 	main_song = audio.loadStream( "main_music_zj.mp3" )
 
+	setaDireita = display.newImageRect( "setadireita.png", 100, display.contentHeight )
+	setaDireita.x = display.contentWidth-50
+	setaDireita.y = display.contentHeight*0.5
+	setaDireita.alpha = 0.5
+
+	setaEsquerda = display.newImageRect( "setaesquerda.png", 100, display.contentHeight )
+	setaEsquerda.x = 50
+	setaEsquerda.y = display.contentHeight*0.5
+	setaEsquerda.alpha = 0.5
+
+
+
 	--local background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
 	--background.x = display.contentWidth*0.5
 	--background.y = display.contentHeight*0.5
@@ -129,7 +143,7 @@ function scene:createScene( event )
 	group:insert(terra)
 
 	marte = display.newImageRect( "marte.png", 80, 80 )
-	marte.x = display.contentWidth-900
+	marte.x = display.contentWidth-750
 	marte.y = -300
 	transition.to( marte, {time=550500, y=marte.y+20000} )
 	group:insert(marte)
@@ -187,7 +201,10 @@ function scene:createScene( event )
 	ready = display.newText( "Get ready!", 500, 300, fonte, 50 )
 	ready.x = display.contentWidth*0.5
 	ready.y = display.contentHeight*0.5
-	--group:insert( ready )
+
+	group:insert(setaDireita)
+	group:insert(setaEsquerda)
+	group:insert( ready )
 
 	sorteio = math.random(1, 3)
 
