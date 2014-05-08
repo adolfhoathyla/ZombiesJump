@@ -12,10 +12,12 @@ require("PlataformasTwo")
 
 local widget = require( "widget" )
 
+podePular = 1
+
 function display:tap (event)
-	if event.numTaps == 1 then
+	if event.numTaps == 1 and podePular == 1 then
 		print ("NUM TAPS: ", event.numTaps)
-		
+		podePular = 0
 		if (event.x < display.contentWidth/2) then
 			transition.to( zumbi, {time=350, x = zumbi.x-155, y = zumbi.y-10} ) 
 			--zumbi:applyLinearImpulse(  50, 1, zumbi.x-150, zumbi.y-230 )
@@ -155,7 +157,7 @@ function scene:createScene( event )
 	group:insert(venus)
 
 	saturno = display.newImageRect( "saturno.png", 80, 80 )
-	saturno.x = display.contentWidth-900
+	saturno.x = display.contentWidth-800
 	saturno.y = -200
 	transition.to( saturno, {time=3005000, y=saturno.y+20000} )
 	group:insert(saturno)
@@ -170,6 +172,7 @@ function scene:createScene( event )
 	zumbi.myName = "zumbi"
 	zumbi.alpha = 0.7
 	zumbi.isFixedRotation = true
+	--podePular = 0
 	group:insert( zumbi )
 
 	chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 1)
@@ -479,6 +482,10 @@ function scene:enterScene( event )
 				end
 			end
 			
+		end
+		if event.phase == "ended" then
+			podePular = 1
+			print ("CHEGUEI NO ENDED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 		end
 		
 	end
