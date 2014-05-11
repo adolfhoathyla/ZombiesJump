@@ -2,46 +2,63 @@ local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
 -- local forward references should go here --
-
-
-
-local widget = require( "widget" )
-
 local function buttonHit(event)
-	storyboard.gotoScene (  event.target.destination, {effect = event.target.effect} )
+	storyboard.gotoScene (  event.target.destination, {effect = "slideUp"} )
 	return true
 end
+
+local widget = require( "widget" )
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
 
-	local background = display.newImageRect( "background_menu.png", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY+250 )
+	-- CREATE display objects and add them to 'group' here.
+	-- Example use-case: Restore 'group' from previously saved state.
+
+	--menu_song = audio.loadStream( "Move Forward.mp3" )
+
+	audio.play(menu_song)
+
+	local background = display.newImageRect( "instructionsTwo.png", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY+250 )
 	background.x = display.contentWidth*0.5
 	background.y = display.contentHeight*0.5
 	group:insert( background )
 
-	-- CREATE display objects and add them to 'group' here.
-	-- Example use-case: Restore 'group' from previously saved state.
-
-	menu_song = audio.loadStream( "Move Forward.mp3" )
-
-	audio.play( menu_song )
-
-
-	--FONTE 
+		--FONTE 
 	if "Win" == system.getInfo( "platformName" ) then 
 		fonte = "Nosifer-Regular" 
 	elseif "Android" == system.getInfo( "platformName" ) then 
 		fonte = "Nosifer-Regular" 
 	end
+	
+
+	local backBtn = widget.newButton
+	{
+		defaultFile = "buttonRed.png",
+		overFile = "buttonRedOver.png",
+		label = "Demonstration",
+		labelColor = 
+		{ 
+			default = { 51, 51, 51, 255 },
+		},
+		fontSize = 22,
+		emboss = true,
+		onPress = button1Press,
+		onRelease = button1Release,
+		x = centerX,
+		y = centerY+(display.contentHeight -500 ),
+	}
+	backBtn.destination = "instrucoes"
+	backBtn:addEventListener("tap", buttonHit)
+	group:insert(backBtn)
 
 
 	local playBtn = widget.newButton
 	{
-		defaultFile = "Play.png",
-		overFile = "Play2.png",
-		--label = "Start",
+		defaultFile = "buttonBlue.png",
+		overFile = "buttonBlueOver.png",
+		label = "Play",
 		labelColor = 
 		{ 
 			default = { 51, 51, 51, 255 },
@@ -51,43 +68,18 @@ function scene:createScene( event )
 		onPress = button1Press,
 		onRelease = button1Release,
 		x = centerX,
-		y = centerY,
+		y = centerY+(display.contentHeight -400 ),
 	}
-	playBtn.destination = "instrucoesUm"
-	playBtn.effect = "crossFade"
+	playBtn.destination = "escolherpersonagem"
 	playBtn:addEventListener("tap", buttonHit)
 	group:insert(playBtn)
 
-
-	local creditsBtn = widget.newButton
-	{
-		defaultFile = "buttonBlue.png",
-		overFile = "buttonBlueOver.png",
-		label = "Credits",
-		labelColor = 
-		{ 
-			default = { 51, 51, 51, 255 },
-		},
-		fontSize = 22,
-		emboss = true,
-		onPress = button1Press,
-		onRelease = button1Release,
-		x = centerX,
-		y = centerY+250,
-	}
-	creditsBtn.destination = "gamecredits"
-	creditsBtn.effect = "slideUp"
-	creditsBtn:addEventListener("tap", buttonHit)
-	group:insert(creditsBtn)
-	
 end
 
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
-
-	storyboard.purgeScene("play")
 
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 
@@ -98,7 +90,7 @@ end
 function scene:exitScene( event )
 	local group = self.view
 
-	--audio.pause(menu_song)
+	audio.pause( menu_song )
 
 	-- INSERT code here (e.g. stop timers, remove listeners, unload sounds, etc.)
 	-- Remove listeners attached to the Runtime, timers, transitions, audio tracks

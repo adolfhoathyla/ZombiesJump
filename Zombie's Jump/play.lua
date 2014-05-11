@@ -215,17 +215,17 @@ function scene:createScene( event )
 	pltImpar[1] = tuplaImpar[1]:sorteia(sorteio)
 
 	if sorteio==1 then
-		transition.to(tuplaImpar[1].plataforma1.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma1.plataformaValendo.y + 3000000})
+		transition.to(tuplaImpar[1].plataforma1.plataformaValendo,{time=27000000,y = tuplaImpar[1].plataforma1.plataformaValendo.y + 3000000})
 		tuplaImpar[1].plataforma1.plataformaValendo.myName = "plataformasImpares"
 		tuplaImpar[1].plataforma1.plataformaValendo.collType = "fixe"
 		group:insert(tuplaImpar[1].plataforma1.plataformaValendo)
 	elseif sorteio==2 then
-		transition.to(tuplaImpar[1].plataforma2.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma2.plataformaValendo.y + 3000000})
+		transition.to(tuplaImpar[1].plataforma2.plataformaValendo,{time=27000000,y = tuplaImpar[1].plataforma2.plataformaValendo.y + 3000000})
 		tuplaImpar[1].plataforma2.plataformaValendo.myName = "plataformasImpares"
 		tuplaImpar[1].plataforma2.plataformaValendo.collType = "fixe"
 		group:insert(tuplaImpar[1].plataforma2.plataformaValendo)
 	elseif sorteio==3 then
-		transition.to(tuplaImpar[1].plataforma3.plataformaValendo,{time=28000000,y = tuplaImpar[1].plataforma3.plataformaValendo.y + 3000000})
+		transition.to(tuplaImpar[1].plataforma3.plataformaValendo,{time=27000000,y = tuplaImpar[1].plataforma3.plataformaValendo.y + 3000000})
 		tuplaImpar[1].plataforma3.plataformaValendo.myName = "plataformasImpares"
 		tuplaImpar[1].plataforma3.plataformaValendo.collType = "fixe"
 		group:insert(tuplaImpar[1].plataforma3.plataformaValendo)
@@ -237,12 +237,12 @@ function scene:createScene( event )
 	pltPar[1] = tuplaPar[1]:proximoDois(sorteio, alt)
 
 	if pltPar[1]==1 then
-		transition.to(tuplaPar[1].plataforma1.plataformaValendo,{time=28000000,y = tuplaPar[1].plataforma1.plataformaValendo.y + 3000000})
+		transition.to(tuplaPar[1].plataforma1.plataformaValendo,{time=27000000,y = tuplaPar[1].plataforma1.plataformaValendo.y + 3000000})
 		tuplaPar[1].plataforma1.plataformaValendo.myName = "plataformasPares"
 		tuplaPar[1].plataforma1.plataformaValendo.collType = "passthru"
 		group:insert(tuplaPar[1].plataforma1.plataformaValendo)
 	elseif pltPar[1]==2 then
-		transition.to(tuplaPar[1].plataforma2.plataformaValendo,{time=28000000,y = tuplaPar[1].plataforma2.plataformaValendo.y + 3000000})
+		transition.to(tuplaPar[1].plataforma2.plataformaValendo,{time=27000000,y = tuplaPar[1].plataforma2.plataformaValendo.y + 3000000})
 		tuplaPar[1].plataforma2.plataformaValendo.myName = "plataformasPares"
 		tuplaPar[1].plataforma2.plataformaValendo.collType = "passthru"
 		group:insert(tuplaPar[1].plataforma2.plataformaValendo)
@@ -256,17 +256,17 @@ function scene:createScene( event )
 		pltImpar[i] = tuplaImpar[i]:sorteiaDois(pltPar[i-1], alt)
 		
 		if pltImpar[i]==1 then
-			transition.to(tuplaImpar[i].plataforma1.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma1.plataformaValendo.y + 3000000})
+			transition.to(tuplaImpar[i].plataforma1.plataformaValendo,{time=27000000,y = tuplaImpar[i].plataforma1.plataformaValendo.y + 3000000})
 			tuplaImpar[i].plataforma1.plataformaValendo.myName = "plataformasImpares"
 			tuplaImpar[i].plataforma1.plataformaValendo.collType = "passthru"
 			group:insert(tuplaImpar[i].plataforma1.plataformaValendo)
 		elseif pltImpar[i]==2 then
-			transition.to(tuplaImpar[i].plataforma2.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma2.plataformaValendo.y + 3000000})
+			transition.to(tuplaImpar[i].plataforma2.plataformaValendo,{time=27000000,y = tuplaImpar[i].plataforma2.plataformaValendo.y + 3000000})
 			tuplaImpar[i].plataforma2.plataformaValendo.myName = "plataformasImpares"
 			tuplaImpar[i].plataforma2.plataformaValendo.collType = "passthru"
 			group:insert(tuplaImpar[i].plataforma2.plataformaValendo)
 		elseif pltImpar[i]==3 then
-			transition.to(tuplaImpar[i].plataforma3.plataformaValendo,{time=28000000,y = tuplaImpar[i].plataforma3.plataformaValendo.y + 3000000})
+			transition.to(tuplaImpar[i].plataforma3.plataformaValendo,{time=27000000,y = tuplaImpar[i].plataforma3.plataformaValendo.y + 3000000})
 			tuplaImpar[i].plataforma3.plataformaValendo.myName = "plataformasImpares"
 			tuplaImpar[i].plataforma3.plataformaValendo.collType = "passthru"
 			group:insert(tuplaImpar[i].plataforma3.plataformaValendo)
@@ -277,12 +277,12 @@ function scene:createScene( event )
 		pltPar[i] = tuplaPar[i]:proximoDois(pltImpar[i], alt)
 		
 		if pltPar[i]==1 then
-			transition.to(tuplaPar[i].plataforma1.plataformaValendo,{time=28000000,y = tuplaPar[i].plataforma1.plataformaValendo.y + 3000000})
+			transition.to(tuplaPar[i].plataforma1.plataformaValendo,{time=27000000,y = tuplaPar[i].plataforma1.plataformaValendo.y + 3000000})
 			tuplaPar[i].plataforma1.plataformaValendo.myName = "plataformasPares"
 			tuplaPar[i].plataforma1.plataformaValendo.collType = "passthru"
 			group:insert(tuplaPar[i].plataforma1.plataformaValendo)
 		elseif pltPar[i]==2 then
-			transition.to(tuplaPar[i].plataforma2.plataformaValendo,{time=28000000,y = tuplaPar[i].plataforma2.plataformaValendo.y + 3000000})
+			transition.to(tuplaPar[i].plataforma2.plataformaValendo,{time=27000000,y = tuplaPar[i].plataforma2.plataformaValendo.y + 3000000})
 			tuplaPar[i].plataforma2.plataformaValendo.myName = "plataformasPares"
 			tuplaPar[i].plataforma2.plataformaValendo.collType = "passthru"
 			group:insert(tuplaPar[i].plataforma2.plataformaValendo)
