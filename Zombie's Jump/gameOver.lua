@@ -20,13 +20,40 @@ function scene:createScene( event )
 
 	local gameOver = display.newImageRect( "gameover.png", 500, 150 )
 	gameOver.x = display.contentWidth*0.5
-	gameOver.y = display.contentHeight*0.5
+	gameOver.y = display.contentHeight*0.5-170
 	group:insert(gameOver)
 
 	local finalScore = display.newText( "Score: " .. score, 250, 50, fonte, 50 )
 	finalScore.x = display.contentWidth*0.5
-	finalScore.y = (display.contentHeight*0.5)+150
+	finalScore.y = (display.contentHeight*0.5)+50
 	group:insert(finalScore)
+
+
+
+	local sql = "SELECT pont FROM pontuacao"
+	--local maximo = db:exec(sql)
+	for row in db:nrows(sql) do
+		maximo = row.pont
+		print ("Score maximo: ", row.pont)
+	end
+
+	local highscore = display.newText( "Highscore: " .. maximo, 250, 50, fonte, 50 )
+	highscore.x = display.contentWidth*0.5
+	highscore.y = display.contentHeight-200
+	group:insert(highscore)
+
+	if score > maximo then
+		local tablefill ="INSERT INTO pontuacao(pont) VALUES (" ..  score  .. ");"
+		print(tablefill) -- para depuração
+		db:exec( tablefill )
+		db:close( )
+	end
+
+	--for row in db:nrows(sql) do
+	--	print("Pontos: ", row.pont)
+	--end
+
+	print ("Score Máximo: ", maximo)
 
 	messageScore:removeSelf( )
 	audio.pause(main_song)

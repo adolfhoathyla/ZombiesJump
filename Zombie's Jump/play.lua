@@ -3,7 +3,15 @@ local scene = storyboard.newScene()
 
 local fisica = require( "physics" )
 fisica.start()
-fisica.setGravity(100, 10000)
+fisica.setGravity(0, 9.8)
+
+require "sqlite3"
+
+local path = system.pathForFile("pontuacaozj.sqlite", system.DocumentsDirectory)
+db = sqlite3.open( path )
+
+local tablesetup = "CREATE TABLE IF NOT EXISTS pontuacao (pont INTEGER);"
+db:exec( tablesetup )
 
 --fisica.setDrawMode("hybrid")
 
@@ -103,6 +111,7 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local group = self.view
+	audio.pause(menu_song)
 
 		--FONTE 
 	if "Windows" == system.getInfo( "platformName" ) then 
@@ -113,18 +122,6 @@ function scene:createScene( event )
 	print("Estou no create scene!")
 
 	main_song = audio.loadStream( "main_music_zj.mp3" )
-
-	setaDireita = display.newImageRect( "setadireita.png", 100, display.contentHeight )
-	setaDireita.x = display.contentWidth-50
-	setaDireita.y = display.contentHeight*0.5
-	setaDireita.alpha = 0.5
-
-	setaEsquerda = display.newImageRect( "setaesquerda.png", 100, display.contentHeight )
-	setaEsquerda.x = 50
-	setaEsquerda.y = display.contentHeight*0.5
-	setaEsquerda.alpha = 0.5
-
-
 
 	--local background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
 	--background.x = display.contentWidth*0.5
@@ -194,9 +191,9 @@ function scene:createScene( event )
 	score = 0
 	cont = 0
 
-	messageScore = display.newText( score, 250, 50, fonte, 50 )
-	messageScore.x = display.contentWidth*0.5 
-	messageScore.y = (display.contentHeight+80)-display.contentHeight
+	messageScore = display.newText( score, 250, 50, fonte, 35 )
+	messageScore.x = 70
+	messageScore.y = (display.contentHeight+50)-display.contentHeight
 
 	group:insert( messageScore )
 
@@ -205,8 +202,6 @@ function scene:createScene( event )
 	ready.x = display.contentWidth*0.5
 	ready.y = display.contentHeight*0.5
 
-	group:insert(setaDireita)
-	group:insert(setaEsquerda)
 	group:insert( ready )
 
 	sorteio = math.random(1, 3)

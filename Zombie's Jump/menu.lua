@@ -53,7 +53,7 @@ function scene:createScene( event )
 		x = centerX,
 		y = centerY,
 	}
-	playBtn.destination = "escolherpersonagem"
+	playBtn.destination = "instrucoes"
 	playBtn.effect = "crossFade"
 	playBtn:addEventListener("tap", buttonHit)
 	group:insert(playBtn)

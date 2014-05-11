@@ -11,7 +11,7 @@ local function buttonHit(event)
 	if event.target.verificador == 1 then
 		arquivo_personagem = "zumbi.png"
 	elseif event.target.verificador == 2 then
-		arquivo_personagem = "walter.png"
+		arquivo_personagem = "miriam.png"
 	end
 	storyboard.gotoScene (  event.target.destination, {effect = event.target.effect} )
 	return true
@@ -26,7 +26,7 @@ function scene:createScene( event )
 
 	--menu_song = audio.loadStream( "Move Forward.mp3" )
 
-	audio.play( menu_song )
+	--audio.play( menu_song )
 
 
 	--FONTE 
@@ -66,7 +66,7 @@ function scene:createScene( event )
 
 	local outro = widget.newButton
 	{
-		defaultFile = "walter.png",
+		defaultFile = "miriam.png",
 		--overFile = "buttonBlueOver.png",
 		--label = "Credits",
 		--labelColor = 
@@ -104,7 +104,7 @@ end
 function scene:exitScene( event )
 	local group = self.view
 
-	audio.pause(menu_song)
+	--audio.pause(menu_song)
 
 	-- INSERT code here (e.g. stop timers, remove listeners, unload sounds, etc.)
 	-- Remove listeners attached to the Runtime, timers, transitions, audio tracks
