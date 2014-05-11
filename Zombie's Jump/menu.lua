@@ -39,9 +39,9 @@ function scene:createScene( event )
 
 	local playBtn = widget.newButton
 	{
-		defaultFile = "buttonRed.png",
-		overFile = "buttonRedOver.png",
-		label = "Start",
+		defaultFile = "Play.png",
+		overFile = "Play2.png",
+		--label = "Start",
 		labelColor = 
 		{ 
 			default = { 51, 51, 51, 255 },
@@ -73,7 +73,7 @@ function scene:createScene( event )
 		onPress = button1Press,
 		onRelease = button1Release,
 		x = centerX,
-		y = centerY+80,
+		y = centerY+250,
 	}
 	creditsBtn.destination = "gamecredits"
 	creditsBtn.effect = "slideUp"

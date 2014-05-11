@@ -8,25 +8,19 @@ fisica.setGravity(0, 9.8)
 
 function display:tap (event)
 	if (event.x > display.contentWidth/2) then
-		transition.to( walter, {time=350, x = walter.x+155, y = walter.y -100} )
+		transition.to( miriam, {time=350, x = miriam.x+155, y = miriam.y -100} )
 		audio.play ( somPulo )
 
 		tapHere.x = centerX - 250
 	end
 
 	if (event.x < display.contentWidth/2) then
-		transition.to( miriam, {time=350, x = miriam.x-155, y = miriam.y -100} )
-		adicionarCorpoFisica(miriam)
+		transition.to( walter, {time=350, x = walter.x-155, y = walter.y -100} )
 		audio.play ( somPulo )
+
+		tapHere.x = centerX + 250
 	end
 end
-
-
-function adicionarCorpoFisica(obj)
-	fisica.addBody(obj, "dynamic")
-end
-
-local widget = require( "widget" )
 
 
 -- Called when the scene's view does not exist:
@@ -40,7 +34,7 @@ function scene:createScene( event )
 
 	--audio.play(menu_song)
 
-	chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 100)
+	chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 1)
 	chao.myName = "chao"
 	group:insert(chao)
 	fisica.addBody(chao, "kinematic", {isSensor=true})
@@ -70,8 +64,15 @@ function scene:createScene( event )
 	fisica.addBody(walter, "dynamic")
 	group:insert(walter)
 
+	miriam = display.newImageRect( "miriam.png", 80, 80 )
+	miriam.x = centerX
+	miriam.y = centerY+(display.contentHeight -400 )
+	miriam.myName = "miriam"
+	group:insert(miriam)
+	fisica.addBody(miriam, "dynamic")
+
 	tapHere = display.newImageRect( "tap.png", 200, 60 )
-	tapHere.x = centerX + 250
+	tapHere.x = centerX - 250
 	tapHere.y = centerY - 100
 	group:insert(tapHere)
 
@@ -94,20 +95,24 @@ function scene:enterScene( event )
 
 	end
 
-	miriam = display.newImageRect( "miriam.png", 80, 80 )
-	miriam.y = 1000
 
+	local passouWalter = 0
+	local passouMiriam = 0
 	local function onCollisionVoltaWalter (event)
-		if event.object1.myName == "walter" and event.object2.myName == "chao" or event.object1.myName == "chao" and event.object2.myName == "walter" then
-			
-			miriam.x = centerX
-			miriam.y = centerY+(display.contentHeight -450 )
-			miriam.myName = "miriam"
-			--fisica.addBody(miriam, "dynamic")
-			group:insert(miriam)
-		end
 		if event.object1.myName == "miriam" and event.object2.myName == "chao" or event.object1.myName == "chao" and event.object2.myName == "miriam" then
-			storyboard.gotoScene (  "escolherpersonagem", {effect = "slideUp"} )
+			passouMiriam = 1
+			miriam:removeSelf( )
+		end
+		if event.object1.myName == "walter" and event.object2.myName == "chao" or event.object1.myName == "chao" and event.object2.myName == "walter" then
+			passouWalter = 1
+			walter:removeSelf( )
+		end
+
+	end
+
+	function vai()
+		if passouWalter == 1 and passouMiriam == 1 then
+			storyboard.gotoScene (  "escolherpersonagem", {effect = "flip"} )
 		end
 	end
 
@@ -115,6 +120,7 @@ function scene:enterScene( event )
 
 	Runtime:addEventListener( "tap", display )
 	Runtime:addEventListener( "collision", onCollisionVoltaWalter )
+	Runtime:addEventListener( "enterFrame", vai )
 	--Runtime:addEventListener( "tap", displayEsquerda )
 
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
@@ -130,6 +136,8 @@ function scene:exitScene( event )
 
 	Runtime:removeEventListener( "tap", display )
 	Runtime:removeEventListener( "collision", onCollisionVoltaWalter )
+	Runtime:removeEventListener( "enterFrame", vai )
+	timer.cancel(destacaDireito)
 	--Runtime:removeEventListener( "tap", displayEsquerda )
 
 	-- INSERT code here (e.g. stop timers, remove listeners, unload sounds, etc.)
