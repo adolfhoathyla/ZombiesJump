@@ -123,10 +123,10 @@ function scene:createScene( event )
 
 	main_song = audio.loadStream( "main_music_zj.mp3" )
 
-	--local background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
-	--background.x = display.contentWidth*0.5
-	--background.y = display.contentHeight*0.5
-	--group:insert( background )
+	local background = display.newImageRect( "background.jpg", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
+	background.x = display.contentWidth*0.5
+	background.y = display.contentHeight*0.5
+	group:insert( background )
 
 	lua = display.newImageRect( "lua.png", 400, 400 )
 	lua.x = display.contentWidth-100
@@ -167,7 +167,7 @@ function scene:createScene( event )
 
 	zumbi = display.newImageRect( arquivo_personagem, 80, 80 )
 	zumbi.myName = "zumbi"
-	zumbi.alpha = 0.7
+	--zumbi.alpha = 0.7
 	zumbi.isFixedRotation = true
 	--podePular = 0
 	group:insert( zumbi )
@@ -457,12 +457,10 @@ function scene:enterScene( event )
 				self.isSensor = false 
 				self.isAwake = true
 				self.linearDamping = 1
-				zumbi:applyLinearImpulse( 0, 1000, zumbi.x, zumbi.y+2000 )
+
 				if event.other.myName == "plataformasPares" and verificadorScore==0 then
-					score = score + 1
+					score = score + 2
 					verificadorScore=1
-				
-					print ("OBJETO COLIDINDO COM O WALTER", event.other.myName)
 
 				elseif event.other.myName == "plataformasPares" and verificadorScore==1 then
 					verificadorScore=0
@@ -470,7 +468,7 @@ function scene:enterScene( event )
 				end
 
 				if event.other.myName == "plataformasImpares" and verificadorScore==0 then
-					score = score + 1
+					score = score + 2
 					verificadorScore=1
 				elseif event.other.myName == "plataformasImpares" and verificadorScore==1 then
 					verificadorScore=0

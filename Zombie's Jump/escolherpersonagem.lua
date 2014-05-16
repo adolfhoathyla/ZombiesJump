@@ -63,6 +63,10 @@ function scene:createScene( event )
 	walter:addEventListener("tap", buttonHit)
 	group:insert(walter)
 
+	local walterText = display.newImageRect( "walter_text.png", 100, 20 )
+	walterText.x = centerX-200
+	walterText.y = centerY+200
+	group:insert( walterText )
 
 	local outro = widget.newButton
 	{
@@ -85,7 +89,12 @@ function scene:createScene( event )
 	outro.verificador = 2
 	outro:addEventListener("tap", buttonHit)
 	group:insert(outro)
-	
+
+	local miriamText = display.newImageRect( "miriam_text.png", 100, 20 )
+	miriamText.x = centerX+200
+	miriamText.y = centerY+200
+	group:insert(miriamText)
+
 end
 
 
