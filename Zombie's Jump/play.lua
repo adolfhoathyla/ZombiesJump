@@ -172,6 +172,11 @@ function scene:createScene( event )
 	--podePular = 0
 	group:insert( zumbi )
 
+	coracao = display.newImageRect("coracao.png", 60, 60)
+	coracao.x = display.contentWidth - 70
+	coracao.y = (display.contentHeight+50)-display.contentHeight
+	group:insert( coracao )
+
 	chao = display.newRect(0, display.contentHeight, display.contentWidth*2, 1)
 	paredeesquerda = display.newRect(0,0,1, display.contentHeight*2)
 	parededireita = display.newRect(display.contentWidth, display.contentHeight,1, display.contentHeight*2)
@@ -334,6 +339,20 @@ function scene:enterScene( event )
 				ready:removeSelf( )
 				transition.resume()
 			end
+		end
+	end
+
+	function batimentoCardiaco() 
+		print ("Escala x:", escalaX)
+		if coracao.xScale==1 then
+			coracao.xScale = 1.5
+			coracao.yScale = 1.5
+			print ("Escala atualizada: ", coracao.xScale)
+
+		elseif coracao.xScale==1.5 then
+			print ("Nova escala: ", coracao.xScale)
+			coracao.xScale = 1
+			coracao.yScale = 1
 		end
 	end
 
@@ -514,6 +533,7 @@ function scene:enterScene( event )
 	Runtime:addEventListener( "tap", youReady )
 	timerCerebros = timer.performWithDelay(500, sorteiaCerebro,0)
 	timerLife = timer.performWithDelay(100, andamentoLife,0)
+	batimentoCard = timer.performWithDelay(900, batimentoCardiaco,0)
 
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 
@@ -542,6 +562,7 @@ function scene:exitScene( event )
 	
 	timer.cancel( timerCerebros )
 	timer.cancel( timerLife )
+	timer.cancel( batimentoCard )
 end
 
 
