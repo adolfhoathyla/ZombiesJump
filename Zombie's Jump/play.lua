@@ -13,6 +13,8 @@ db = sqlite3.open( path )
 local tablesetup = "CREATE TABLE IF NOT EXISTS pontuacao (pont INTEGER);"
 db:exec( tablesetup )
 
+--local sqlTemp = "DELETE pontuacao WHERE pont=238"
+--db:exec(sqlTemp)
 --fisica.setDrawMode("hybrid")
 
 require( "PlataformasThree" )
@@ -458,7 +460,8 @@ function scene:enterScene( event )
 		end
 	end
 
-	verificadorScore = 0
+	verificadorScorePar = 0
+	verificadorScoreImpar = 0
 
 	function zumbi:collision( event )
 		--print ("Colisao", plataformas.collType)
@@ -477,20 +480,20 @@ function scene:enterScene( event )
 				self.isAwake = true
 				self.linearDamping = 1
 
-				if event.other.myName == "plataformasPares" and verificadorScore==0 then
-					score = score + 2
-					verificadorScore=1
+				if event.other.myName == "plataformasPares" and verificadorScorePar==0 then
+					score = score + 1
+					verificadorScorePar=1
 
-				elseif event.other.myName == "plataformasPares" and verificadorScore==1 then
-					verificadorScore=0
+				elseif event.other.myName == "plataformasPares" and verificadorScorePar==1 then
+					verificadorScorePar=0
 			
 				end
 
-				if event.other.myName == "plataformasImpares" and verificadorScore==0 then
-					score = score + 2
-					verificadorScore=1
-				elseif event.other.myName == "plataformasImpares" and verificadorScore==1 then
-					verificadorScore=0
+				if event.other.myName == "plataformasImpares" and verificadorScoreImpar==0 then
+					score = score + 1
+					verificadorScoreImpar=1
+				elseif event.other.myName == "plataformasImpares" and verificadorScoreImpar==1 then
+					verificadorScoreImpar=0
 				end
 			end
 			

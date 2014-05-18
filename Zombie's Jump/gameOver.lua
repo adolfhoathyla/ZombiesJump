@@ -18,17 +18,6 @@ function scene:createScene( event )
 
 	life:removeSelf( )
 
-	local gameOver = display.newImageRect( "gameover.png", 700, 900 )
-	gameOver.x = display.contentWidth*0.5
-	gameOver.y = display.contentHeight*0.5+100
-	group:insert(gameOver)
-
-	local finalScore = display.newText( "Score: " .. score, 250, 50, fonte, 50 )
-	finalScore.x = (display.contentWidth*0.5)-300
-	finalScore.y = (display.contentHeight*0.5)-200
-	group:insert(finalScore)
-
-
 
 	local sql = "SELECT pont FROM pontuacao"
 	--local maximo = db:exec(sql)
@@ -37,16 +26,42 @@ function scene:createScene( event )
 		print ("Score maximo: ", row.pont)
 	end
 
-	local highscore = display.newText( "Highscore: " .. maximo, 250, 50, fonte, 50 )
-	highscore.x = (display.contentWidth*0.5)+300
-	highscore.y = (display.contentHeight*0.5)-200
-	group:insert(highscore)
-
 	if score > maximo then
 		local tablefill ="INSERT INTO pontuacao(pont) VALUES (" ..  score  .. ");"
 		print(tablefill) -- para depuração
 		db:exec( tablefill )
 		db:close( )
+
+		local gameOverFeliz = display.newImageRect( "gameoverfeliz.png", 700, 900 )
+		gameOverFeliz.x = display.contentWidth*0.5
+		gameOverFeliz.y = display.contentHeight*0.5+100
+		group:insert(gameOverFeliz)
+
+		local newBest = display.newText( "New Best: " .. score, 250, 50, fonte, 50 )
+		newBest.x = (display.contentWidth*0.5)-300
+		newBest.y = (display.contentHeight*0.5)-200
+		group:insert(newBest)
+
+		local highscore = display.newText( "Old Best: " .. maximo, 250, 50, fonte, 50 )
+		highscore.x = (display.contentWidth*0.5)+300
+		highscore.y = (display.contentHeight*0.5)-200
+		group:insert(highscore)
+
+	else 
+		local gameOver = display.newImageRect( "gameover.png", 700, 900 )
+		gameOver.x = display.contentWidth*0.5
+		gameOver.y = display.contentHeight*0.5+100
+		group:insert(gameOver)
+
+		local finalScore = display.newText( "Score: " .. score, 250, 50, fonte, 50 )
+		finalScore.x = (display.contentWidth*0.5)-300
+		finalScore.y = (display.contentHeight*0.5)-200
+		group:insert(finalScore)
+
+		local highscore = display.newText( "Highscore: " .. maximo, 250, 50, fonte, 50 )
+		highscore.x = (display.contentWidth*0.5)+300
+		highscore.y = (display.contentHeight*0.5)-200
+		group:insert(highscore)
 	end
 
 	messageScore:removeSelf( )
