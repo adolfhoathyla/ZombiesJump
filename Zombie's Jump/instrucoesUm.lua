@@ -3,7 +3,7 @@ local scene = storyboard.newScene()
 
 -- local forward references should go here --
 local function buttonHit(event)
-	storyboard.gotoScene (  event.target.destination, {effect = "slideUp"} )
+	storyboard.gotoScene (  event.target.destination, {effect = "zoomInOut"} )
 	return true
 end
 

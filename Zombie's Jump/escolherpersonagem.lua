@@ -36,6 +36,8 @@ function scene:createScene( event )
 		fonte = "Nosifer-Regular" 
 	end
 
+	audio.play( main_song)
+
 	local background = display.newImageRect( "choose_monster.png", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY+250 )
 	background.x = display.contentWidth*0.5
 	background.y = display.contentHeight*0.5

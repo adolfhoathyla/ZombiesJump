@@ -18,14 +18,14 @@ function scene:createScene( event )
 
 	life:removeSelf( )
 
-	local gameOver = display.newImageRect( "gameover.png", 500, 150 )
+	local gameOver = display.newImageRect( "gameover.png", 700, 900 )
 	gameOver.x = display.contentWidth*0.5
-	gameOver.y = display.contentHeight*0.5-170
+	gameOver.y = display.contentHeight*0.5+100
 	group:insert(gameOver)
 
 	local finalScore = display.newText( "Score: " .. score, 250, 50, fonte, 50 )
-	finalScore.x = display.contentWidth*0.5
-	finalScore.y = (display.contentHeight*0.5)+50
+	finalScore.x = (display.contentWidth*0.5)-300
+	finalScore.y = (display.contentHeight*0.5)-200
 	group:insert(finalScore)
 
 
@@ -38,8 +38,8 @@ function scene:createScene( event )
 	end
 
 	local highscore = display.newText( "Highscore: " .. maximo, 250, 50, fonte, 50 )
-	highscore.x = display.contentWidth*0.5
-	highscore.y = display.contentHeight-200
+	highscore.x = (display.contentWidth*0.5)+300
+	highscore.y = (display.contentHeight*0.5)-200
 	group:insert(highscore)
 
 	if score > maximo then
@@ -48,12 +48,6 @@ function scene:createScene( event )
 		db:exec( tablefill )
 		db:close( )
 	end
-
-	--for row in db:nrows(sql) do
-	--	print("Pontos: ", row.pont)
-	--end
-
-	print ("Score Máximo: ", maximo)
 
 	messageScore:removeSelf( )
 	audio.pause(main_song)
