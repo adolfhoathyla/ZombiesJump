@@ -19,7 +19,9 @@ function scene:createScene( event )
 	life:removeSelf( )
 
 
-	local sql = "SELECT pont FROM pontuacao"
+	local sql = "SELECT pont FROM pontuacao ORDER BY pont"
+	--maximo = db:exec( sql )
+	--print ("máximo: ", maximo)
 	--local maximo = db:exec(sql)
 	for row in db:nrows(sql) do
 		maximo = row.pont

@@ -50,7 +50,7 @@ function scene:createScene( event )
 		emboss = true,
 		onPress = button1Press,
 		onRelease = button1Release,
-		x = centerX,
+		x = centerX+(centerX*0.5),
 		y = centerY,
 	}
 	playBtn.destination = "instrucoesUm"
@@ -72,7 +72,7 @@ function scene:createScene( event )
 		emboss = true,
 		onPress = button1Press,
 		onRelease = button1Release,
-		x = centerX,
+		x = centerX+(centerX*0.5),
 		y = centerY+250,
 	}
 	creditsBtn.destination = "gamecredits"
