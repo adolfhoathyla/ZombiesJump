@@ -8,10 +8,31 @@ fisica.setGravity(0, 9.8)
 require "sqlite3"
 
 local path = system.pathForFile("pontuacaozj.sqlite", system.DocumentsDirectory)
+
+file = io.open( path, "r" )
+
+if( file == nil )then
+	-- Se não existe ainda, copia ele da pasta recursos
+	pathSource = system.pathForFile( "pontuacaozj.sqlite", system.ResourceDirectory )
+	fileSource = io.open( pathSource, "r" )
+	contentsSource = fileSource:read( "*a" )
+	--Escreve o arquivo de destino na pasta de documentos
+	pathDest = system.pathForFile( "pontuacaozj.sqlite", system.DocumentsDirectory )
+	fileDest = io.open( pathDest, "w" )
+	fileDest:write( contentsSource )
+	-- Feito
+	io.close( fileSource )
+	io.close( fileDest )
+end
+
 db = sqlite3.open( path )
 
 local tablesetup = "CREATE TABLE IF NOT EXISTS pontuacao (pont INTEGER);"
 db:exec( tablesetup )
+
+--LEMBRAR DE EXECUTAR SOMENTE NA PRIMEIRA VEZ, QUANDO FOR PARA UM NOVO PC
+--local inserirDefault = "INSERT INTO pontuacao (pont) VALUES(0);"
+--db:exec( inserirDefault )
 
 --local sqlTemp = "DELETE pontuacao WHERE pont=238"
 --db:exec(sqlTemp)
