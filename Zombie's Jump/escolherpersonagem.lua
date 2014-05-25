@@ -58,7 +58,7 @@ function scene:createScene( event )
 		y = centerY,
 	}
 	walter.destination = "play"
-	walter.effect = "zoomOutInFade"
+	walter.effect = "crossFade"
 	walter.verificador = 1
 	walter:addEventListener("tap", buttonHit)
 	group:insert(walter)
