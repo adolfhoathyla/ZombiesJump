@@ -8,4 +8,4 @@ display.setStatusBar(display.HiddenStatusBar)
 centerX = display.contentCenterX
 centerY = display.contentCenterY
 
-storyboard.gotoScene ( "menu", { effect = "slideDown"} )
+storyboard.gotoScene ( "menu", { effect = "zoomOutInFade"} )

@@ -36,8 +36,6 @@ function scene:createScene( event )
 		fonte = "Nosifer-Regular" 
 	end
 
-	audio.play( main_song)
-
 	local background = display.newImageRect( "choose_monster.png", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY+250 )
 	background.x = display.contentWidth*0.5
 	background.y = display.contentHeight*0.5
@@ -60,12 +58,12 @@ function scene:createScene( event )
 		y = centerY,
 	}
 	walter.destination = "play"
-	walter.effect = "crossFade"
+	walter.effect = "zoomOutInFade"
 	walter.verificador = 1
 	walter:addEventListener("tap", buttonHit)
 	group:insert(walter)
 
-	local walterText = display.newImageRect( "walter_text.png", 100, 20 )
+	local walterText = display.newImageRect( "walter_text.png", 150, 40 )
 	walterText.x = centerX-200
 	walterText.y = centerY+200
 	group:insert( walterText )
@@ -87,12 +85,12 @@ function scene:createScene( event )
 		y = centerY,
 	}
 	outro.destination = "play"
-	outro.effect = "slideUp"
+	outro.effect = "crossFade"
 	outro.verificador = 2
 	outro:addEventListener("tap", buttonHit)
 	group:insert(outro)
 
-	local miriamText = display.newImageRect( "miriam_text.png", 100, 20 )
+	local miriamText = display.newImageRect( "miriam_text.png", 150, 40 )
 	miriamText.x = centerX+200
 	miriamText.y = centerY+200
 	group:insert(miriamText)

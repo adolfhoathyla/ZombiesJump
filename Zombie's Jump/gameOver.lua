@@ -18,6 +18,11 @@ function scene:createScene( event )
 
 	life:removeSelf( )
 
+	--local background = display.newImageRect( "background.png", (display.contentWidth - display.screenOriginX)-display.screenOriginX, (display.contentHeight - display.screenOriginY)-display.screenOriginY )
+	--background.x = display.contentWidth*0.5
+	--background.y = display.contentHeight*0.5
+	--group:insert( background )
+
 
 	local sql = "SELECT pont FROM pontuacao ORDER BY pont"
 	--maximo = db:exec( sql )

@@ -50,8 +50,8 @@ function scene:createScene( event )
 		emboss = true,
 		onPress = button1Press,
 		onRelease = button1Release,
-		x = centerX+(centerX*0.5),
-		y = centerY,
+		x = centerX-(centerX*0.5-80),
+		y = centerY-(centerY*0.5),
 	}
 	playBtn.destination = "instrucoesUm"
 	playBtn.effect = "crossFade"
@@ -72,7 +72,7 @@ function scene:createScene( event )
 		emboss = true,
 		onPress = button1Press,
 		onRelease = button1Release,
-		x = centerX+(centerX*0.5),
+		x = centerX+(centerX*0.5+80),
 		y = centerY+250,
 	}
 	creditsBtn.destination = "gamecredits"

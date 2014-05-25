@@ -47,7 +47,7 @@ function scene:createScene( event )
 		onPress = button1Press,
 		onRelease = button1Release,
 		x = centerX,
-		y = centerY+(display.contentHeight -500 ),
+		y = centerY+(centerY*0.6 ),
 	}
 	backBtn.destination = "instrucoes"
 	backBtn:addEventListener("tap", buttonHit)
@@ -68,7 +68,7 @@ function scene:createScene( event )
 		onPress = button1Press,
 		onRelease = button1Release,
 		x = centerX,
-		y = centerY+(display.contentHeight -400 ),
+		y = centerY+(centerY*0.4 ),
 	}
 	playBtn.destination = "escolherpersonagem"
 	playBtn:addEventListener("tap", buttonHit)
