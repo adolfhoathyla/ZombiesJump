@@ -151,6 +151,11 @@ function scene:createScene( event )
 	background.y = display.contentHeight*0.5
 	group:insert( background )
 
+	local hunger = display.newImageRect( "hunger.png", 110, 30 )
+	hunger.x = 90
+	hunger.y = display.contentHeight -80
+	group:insert(hunger)
+
 	lua = display.newImageRect( "lua.png", 400, 400 )
 	lua.x = display.contentWidth-100
 	lua.y = -300
