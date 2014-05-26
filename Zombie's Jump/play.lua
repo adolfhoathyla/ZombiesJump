@@ -156,32 +156,32 @@ function scene:createScene( event )
 	hunger.y = display.contentHeight -80
 	group:insert(hunger)
 
-	lua = display.newImageRect( "lua.png", 400, 400 )
+	local lua = display.newImageRect( "lua.png", 400, 400 )
 	lua.x = display.contentWidth-100
 	lua.y = -300
 	transition.to( lua, {time=1505000, y=lua.y+20000} )
 	group:insert(lua)
 
 
-	terra = display.newImageRect( "terra.png", 150, 150 )
+	local terra = display.newImageRect( "terra.png", 150, 150 )
 	terra.x = display.contentWidth-600
 	terra.y = -400
 	transition.to( terra, {time=2005000, y=terra.y+20000} )
 	group:insert(terra)
 
-	marte = display.newImageRect( "marte.png", 80, 80 )
+	local marte = display.newImageRect( "marte.png", 80, 80 )
 	marte.x = display.contentWidth-750
 	marte.y = -300
 	transition.to( marte, {time=550500, y=marte.y+20000} )
 	group:insert(marte)
 
-	venus = display.newImageRect( "venus.png", 120, 120 )
+	local venus = display.newImageRect( "venus.png", 120, 120 )
 	venus.x = display.contentWidth*0.5+100
 	venus.y = -450
 	transition.to( venus, {time=406000, y=venus.y+20000} )
 	group:insert(venus)
 
-	saturno = display.newImageRect( "saturno.png", 80, 80 )
+	local saturno = display.newImageRect( "saturno.png", 80, 80 )
 	saturno.x = display.contentWidth-800
 	saturno.y = -200
 	transition.to( saturno, {time=3005000, y=saturno.y+20000} )
